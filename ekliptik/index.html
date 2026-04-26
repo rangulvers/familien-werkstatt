@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Was ist die Ekliptik?</title>
+<style>
+  :root {
+    --bg-1: #06091b;
+    --bg-2: #121a3a;
+    --ink: #f4ecdb;
+    --ink-2: #c9c2af;
+    --ink-3: #8b8474;
+    --sun: #ffd66b;
+    --sun-glow: #ffae3b;
+    --earth: #5cb1f7;
+    --earth-land: #7ed27a;
+    --orbit: rgba(244, 236, 219, 0.25);
+    --tilt: #ff8866;
+    --zodiac: #b69cff;
+    --accent: #ff6f6b;
+    --card: rgba(255, 255, 255, 0.04);
+    --hair: rgba(255, 255, 255, 0.12);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: radial-gradient(ellipse at top, var(--bg-2) 0%, var(--bg-1) 70%);
+    color: var(--ink);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      radial-gradient(1px 1px at 12% 18%, #fff 50%, transparent 51%),
+      radial-gradient(1px 1px at 78% 24%, #fff 50%, transparent 51%),
+      radial-gradient(1px 1px at 33% 64%, #fff 50%, transparent 51%),
+      radial-gradient(2px 2px at 92% 87%, #fff 50%, transparent 51%),
+      radial-gradient(1px 1px at 47% 91%, #fff 50%, transparent 51%),
+      radial-gradient(2px 2px at 18% 80%, #fff 50%, transparent 51%),
+      radial-gradient(1px 1px at 65% 12%, #fff 50%, transparent 51%),
+      radial-gradient(1px 1px at 5% 50%, #fff 50%, transparent 51%);
+    opacity: 0.7;
+  }
+  main { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; position: relative; z-index: 1; }
+  header { text-align: center; margin-bottom: 28px; }
+  .kicker {
+    font: 11px/1 ui-monospace, SFMono-Regular, monospace;
+    letter-spacing: 2px; text-transform: uppercase; color: var(--ink-3);
+    margin-bottom: 10px;
+  }
+  h1 {
+    font: 600 44px/1.05 Georgia, "Times New Roman", serif;
+    margin: 0; letter-spacing: -1px;
+  }
+  h1 em { color: var(--sun); font-style: italic; font-weight: 400; }
+  .lede { color: var(--ink-2); font-size: 17px; max-width: 640px; margin: 12px auto 0; }
+
+  section.card {
+    background: var(--card);
+    border: 1px solid var(--hair);
+    border-radius: 18px;
+    padding: 22px 22px 24px;
+    margin-top: 22px;
+    backdrop-filter: blur(6px);
+  }
+  section h2 {
+    font: 600 22px/1.2 Georgia, serif;
+    margin: 0 0 6px; letter-spacing: -0.3px;
+  }
+  section p.sub { color: var(--ink-2); margin: 0 0 16px; font-size: 14.5px; }
+
+  .controls { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin: 18px 0 6px; }
+  .controls label { font: 12px ui-monospace, monospace; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-3); }
+  input[type="range"] { flex: 1; min-width: 220px; accent-color: var(--sun); height: 28px; }
+  .pill {
+    display: inline-block; padding: 4px 12px; border-radius: 999px;
+    background: rgba(255, 214, 107, 0.15); color: var(--sun);
+    font: 13px ui-monospace, monospace; letter-spacing: 0.4px;
+  }
+  .small {
+    font-size: 13px; color: var(--ink-3);
+  }
+
+  svg { display: block; width: 100%; height: auto; }
+  .label { font: 13px ui-monospace, monospace; letter-spacing: 0.6px; fill: var(--ink-2); }
+  .label-big { font: 600 15px Georgia, serif; fill: var(--ink); }
+
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 14px; margin-top: 14px;
+    font-size: 13px; color: var(--ink-2);
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+  .quiz {
+    background: rgba(255, 111, 107, 0.08);
+    border-left: 3px solid var(--accent);
+    padding: 14px 18px; margin-top: 22px;
+    border-radius: 12px;
+  }
+  .quiz strong { color: var(--accent); }
+  details {
+    margin-top: 8px; cursor: pointer;
+    color: var(--ink-2); font-size: 14px;
+  }
+  details summary { font-weight: 500; color: var(--ink); }
+  details p { margin: 8px 0 0; }
+
+  .takeaway {
+    margin-top: 28px; padding: 18px 22px;
+    background: rgba(182, 156, 255, 0.06);
+    border: 1px dashed rgba(182, 156, 255, 0.4);
+    border-radius: 14px;
+  }
+  .takeaway h3 { margin: 0 0 8px; font: 600 16px Georgia, serif; color: var(--zodiac); }
+
+  footer {
+    margin-top: 40px; text-align: center;
+    color: var(--ink-3); font-size: 12px;
+  }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 32px; }
+    main { padding: 22px 14px 60px; }
+    section.card { padding: 18px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="kicker">Astronomie für die Familie</div>
+    <h1>Was ist die <em>Ekliptik?</em></h1>
+    <p class="lede">
+      Die Ekliptik ist die Bahn, auf der die Sonne über ein ganzes Jahr durch den Himmel zu wandern scheint. Sie heißt so, weil dort auch alle Sonnen- und Mondfinsternisse passieren — auf Griechisch heißt das „Verdunklung". Spiel mit den Schiebern und schau, wie alles zusammenhängt.
+    </p>
+  </header>
+
+  <!-- ──────────────────────────────────────────────────────────── -->
+  <section class="card">
+    <h2>1 · Die Erde fliegt um die Sonne</h2>
+    <p class="sub">Von oben gesehen ist die Erdbahn fast ein Kreis. Diese flache Scheibe, in der alle Planeten herumkreisen, nennen wir <strong>Ekliptik</strong>. Schieb den Regler und sieh die Erde durch das Jahr fliegen.</p>
+
+    <div class="controls">
+      <label for="day">Tag im Jahr</label>
+      <input type="range" id="day" min="1" max="365" value="115" />
+      <span class="pill" id="dayPill">25. April</span>
+    </div>
+
+    <svg id="orbit" viewBox="0 0 600 360" aria-label="Erde umkreist die Sonne">
+      <defs>
+        <radialGradient id="sunGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fff7d6"/>
+          <stop offset="40%" stop-color="#ffd66b"/>
+          <stop offset="100%" stop-color="#ffae3b"/>
+        </radialGradient>
+        <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffae3b" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#ffae3b" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="earthGrad" cx="35%" cy="35%" r="65%">
+          <stop offset="0%" stop-color="#a8d4ff"/>
+          <stop offset="60%" stop-color="#5cb1f7"/>
+          <stop offset="100%" stop-color="#1a4380"/>
+        </radialGradient>
+      </defs>
+
+      <!-- Orbit ellipse (slightly tilted to suggest perspective) -->
+      <ellipse cx="300" cy="180" rx="240" ry="120"
+               fill="none" stroke="var(--orbit)" stroke-width="1.5" stroke-dasharray="4 6"/>
+      <text class="label" x="300" y="60" text-anchor="middle">die Ekliptik (Erdbahn)</text>
+
+      <!-- Sun glow + body -->
+      <circle cx="300" cy="180" r="80" fill="url(#sunGlow)"/>
+      <circle cx="300" cy="180" r="30" fill="url(#sunGrad)"/>
+      <text class="label-big" x="300" y="184" text-anchor="middle" fill="#3a2a08">☀</text>
+
+      <!-- Seasons markers -->
+      <g class="label" font-size="11">
+        <text x="300" y="50" text-anchor="middle">Sommer-Sonnenwende · 21.6.</text>
+        <text x="555" y="184" text-anchor="middle">Herbst · 23.9.</text>
+        <text x="300" y="318" text-anchor="middle">Winter-Sonnenwende · 21.12.</text>
+        <text x="45"  y="184" text-anchor="middle">Frühling · 21.3.</text>
+      </g>
+
+      <!-- Earth (positioned by JS) -->
+      <g id="earth-group">
+        <circle id="earth" r="14" fill="url(#earthGrad)" cx="540" cy="180"/>
+        <text id="earthLabel" class="label" x="540" y="158" text-anchor="middle">Erde</text>
+      </g>
+
+      <!-- Connection line Sun↔Earth -->
+      <line id="sunRay" x1="300" y1="180" x2="540" y2="180"
+            stroke="rgba(255,214,107,0.4)" stroke-width="1.5" stroke-dasharray="3 4"/>
+    </svg>
+
+    <div class="legend">
+      <span><i class="dot" style="background:var(--sun)"></i>Sonne (steht still)</span>
+      <span><i class="dot" style="background:var(--earth)"></i>Erde (bewegt sich)</span>
+      <span><i class="dot" style="background:var(--orbit); border:1px dashed #fff;"></i>Ekliptik-Bahn</span>
+    </div>
+
+    <details>
+      <summary>Warum heißt das überhaupt „Ekliptik"?</summary>
+      <p>Auf dieser Bahn-Linie passieren manchmal Finsternisse — die Sonne wird vom Mond verdeckt, oder der Mond fällt in den Erdschatten. Auf Griechisch heißt „ékleipsis" Verdunklung. Daher der Name.</p>
+    </details>
+  </section>
+
+  <!-- ──────────────────────────────────────────────────────────── -->
+  <section class="card">
+    <h2>2 · Die Erde steht schief — darum gibt's Sommer und Winter</h2>
+    <p class="sub">Die Erdachse zeigt nicht gerade nach oben. Sie kippt um <strong>23,5°</strong>. Diese Schräge zur Ekliptik macht die Jahreszeiten. Schieb den gleichen Regler — der schiefe Strich kippt mit.</p>
+
+    <svg id="tilt" viewBox="0 0 600 280" aria-label="Erdachse-Neigung im Jahresverlauf">
+      <defs>
+        <linearGradient id="floorGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="rgba(244,236,219,0.15)"/>
+          <stop offset="100%" stop-color="rgba(244,236,219,0)"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Ecliptic plane (horizontal line) -->
+      <line x1="50" y1="180" x2="550" y2="180" stroke="rgba(244,236,219,0.5)" stroke-width="2"/>
+      <text class="label" x="550" y="200" text-anchor="end">Ekliptik (Bahn-Ebene)</text>
+
+      <!-- Sun on left -->
+      <circle cx="90" cy="180" r="22" fill="url(#sunGrad)"/>
+      <text class="label-big" x="90" y="184" text-anchor="middle" fill="#3a2a08">☀</text>
+
+      <!-- Earth in the middle, with tilted axis -->
+      <g id="tilt-group" transform="translate(370 180)">
+        <circle r="42" fill="url(#earthGrad)"/>
+        <!-- Equator line on globe -->
+        <ellipse cx="0" cy="0" rx="42" ry="6" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+        <!-- Tilted rotation axis -->
+        <g id="axisGroup" transform="rotate(23.5)">
+          <line x1="0" y1="-58" x2="0" y2="58" stroke="var(--tilt)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="0" cy="-58" r="3" fill="var(--tilt)"/>
+          <circle cx="0" cy="58" r="3" fill="var(--tilt)"/>
+          <text class="label" x="0" y="-66" text-anchor="middle" fill="var(--tilt)">Nordpol</text>
+          <text class="label" x="0" y="78" text-anchor="middle" fill="var(--tilt)">Südpol</text>
+        </g>
+        <!-- Vertical reference -->
+        <line x1="0" y1="-72" x2="0" y2="72" stroke="rgba(244,236,219,0.2)" stroke-width="1" stroke-dasharray="3 4"/>
+      </g>
+
+      <text id="seasonLabel" class="label-big" x="370" y="245" text-anchor="middle">Frühling auf der Nordhalbkugel</text>
+      <text id="tiltLabel" class="label" x="370" y="266" text-anchor="middle">Tag und Nacht fast gleich lang</text>
+    </svg>
+
+    <div class="legend">
+      <span><i class="dot" style="background:var(--tilt)"></i>Erdachse · 23,5° Schräge</span>
+      <span><i class="dot" style="background:rgba(244,236,219,0.5)"></i>Ekliptik-Linie</span>
+    </div>
+
+    <details>
+      <summary>Was passiert genau, wenn ich den Regler weiterschiebe?</summary>
+      <p>Die Schräge bleibt immer gleich (23,5°) — aber je nachdem, wo die Erde gerade um die Sonne herumläuft, zeigt mal der Nordpol mehr zur Sonne (Sommer bei uns), mal der Südpol (Winter bei uns). Daher die Jahreszeiten.</p>
+    </details>
+  </section>
+
+  <!-- ──────────────────────────────────────────────────────────── -->
+  <section class="card">
+    <h2>3 · Wo steht die Sonne im Tierkreis?</h2>
+    <p class="sub">Wenn man von der Erde aus zum Himmel schaut, läuft die Sonne über das Jahr durch <strong>12 Sternbilder</strong> — den Tierkreis. Genau diese Linie ist die Ekliptik am Himmel. Bei welchem Sternbild ist die Sonne heute?</p>
+
+    <svg id="zodiac" viewBox="0 0 600 200" aria-label="Sternzeichen entlang der Ekliptik">
+      <!-- Ecliptic line as a sine wave for visual interest -->
+      <path id="zodiacPath"
+            d="M 30 100 Q 105 50 180 100 T 330 100 T 480 100 T 570 100"
+            fill="none" stroke="rgba(182,156,255,0.6)" stroke-width="2" stroke-dasharray="4 6"/>
+
+      <!-- Zodiac signs as circles with symbol + name, placed along the path -->
+      <g id="signs"></g>
+
+      <!-- Sun marker (placed by JS) -->
+      <circle id="sunMarker" cx="0" cy="0" r="14" fill="url(#sunGrad)"/>
+      <text id="sunMarkerLabel" class="label" x="0" y="0" text-anchor="middle" fill="#3a2a08">☀</text>
+    </svg>
+
+    <div class="legend">
+      <span><i class="dot" style="background:var(--zodiac)"></i>Tierkreis-Sternbilder</span>
+      <span><i class="dot" style="background:var(--sun)"></i>Wo die Sonne gerade steht</span>
+      <span class="small">heutige Sonnen-Stellung: <span id="todaySign" style="color:var(--zodiac)">…</span></span>
+    </div>
+
+    <details>
+      <summary>Warum ist mein Sternzeichen anders als die Sonnen-Stellung heute?</summary>
+      <p>Dein Sternzeichen sagt aus, in welchem Sternbild die Sonne <em>bei deiner Geburt</em> stand. Heute, an einem anderen Tag, steht sie woanders. Außerdem haben sich die Sternbilder am Himmel über tausende Jahre langsam verschoben — die alten Astronomen haben das Datum vor Christus festgelegt.</p>
+    </details>
+  </section>
+
+  <!-- ──────────────────────────────────────────────────────────── -->
+  <div class="quiz">
+    <strong>Mini-Quiz</strong> · Was glaubt ihr?
+    <details>
+      <summary>1. Wenn die Erde gar nicht schief stehen würde — gäbe es dann noch Sommer und Winter?</summary>
+      <p>Nein. Die Schräge ist der Grund. Ohne sie wäre es überall auf der Erde das ganze Jahr ungefähr gleich warm.</p>
+    </details>
+    <details>
+      <summary>2. Bewegt sich die Sonne wirklich am Himmel — oder nur scheinbar?</summary>
+      <p>Nur scheinbar. In Wirklichkeit fliegt die Erde um die Sonne. Aber von uns aus gesehen sieht es aus, als würde die Sonne durch die Sternbilder wandern.</p>
+    </details>
+    <details>
+      <summary>3. Warum sieht man die Tierkreis-Sterne, denen die Sonne gerade gegenüber steht, am besten?</summary>
+      <p>Weil sie nachts genau gegenüber der Sonne stehen — also die ganze Nacht oben am Himmel. Die Sterne, in denen die Sonne gerade steht, sind tagsüber unsichtbar.</p>
+    </details>
+  </div>
+
+  <div class="takeaway">
+    <h3>Zum Mitnehmen</h3>
+    <p style="margin:0;">Die <strong>Ekliptik</strong> ist die flache Scheibe, in der die Erde um die Sonne fliegt. Weil die Erdachse um 23,5° schief steht, gibt es Sommer und Winter. Vom Erdboden aus sehen wir die Sonne über das Jahr durch zwölf Sternbilder ziehen — das ist der Tierkreis.</p>
+  </div>
+
+  <footer>
+    Gemacht von Papa &amp; Claude · April 2026
+  </footer>
+</main>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────
+// Date helpers — we treat day-of-year 1..365 as a full revolution.
+// March equinox ≈ day 80, June solstice ≈ day 172, etc.
+
+const dayInput = document.getElementById('day');
+const dayPill = document.getElementById('dayPill');
+
+function dayToDate(doy) {
+  // doy 1..365 → Date in current year (or 2026 — doesn't matter for display)
+  const d = new Date(2026, 0, 1);
+  d.setDate(doy);
+  return d;
+}
+function fmtDE(date) {
+  const months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+  return `${date.getDate()}. ${months[date.getMonth()]}`;
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Scene 1 — Earth orbit
+// March equinox (~day 80) is "Frühling" → put earth at angle 180° (left of Sun).
+// We map doy linearly to angle.
+
+const earthEl = document.getElementById('earth');
+const earthLabelEl = document.getElementById('earthLabel');
+const sunRay = document.getElementById('sunRay');
+
+const ORBIT = { cx: 300, cy: 180, rx: 240, ry: 120 };
+
+function earthPosition(doy) {
+  // Astronomical convention: at March equinox (~day 80), as seen from above
+  // the north pole, Earth sits at "longitude 180°" (Sun appears at long 0°
+  // which is the Vernal Equinox point). We rotate so day 80 → angle π.
+  const t = (doy - 80) / 365;          // fraction of year since equinox
+  const angle = Math.PI + t * Math.PI * 2;  // start at π, go counter-clockwise
+  return {
+    x: ORBIT.cx + ORBIT.rx * Math.cos(angle),
+    y: ORBIT.cy + ORBIT.ry * Math.sin(angle),
+  };
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Scene 2 — Earth tilt rotates as it orbits.
+// Tilt direction in space stays fixed — what changes is which side of the
+// Earth points toward the Sun. We approximate by rotating the axis-group
+// by an angle that flips the perceived tilt over the course of the year.
+
+const axisGroup = document.getElementById('axisGroup');
+const seasonLabel = document.getElementById('seasonLabel');
+const tiltLabel = document.getElementById('tiltLabel');
+
+function seasonInfo(doy) {
+  // Northern hemisphere convention.
+  // doy 80 ≈ Mar equinox, 172 ≈ Jun solstice, 266 ≈ Sep equinox, 355 ≈ Dec solstice
+  const phase = ((doy - 80 + 365) % 365) / 365; // 0..1, 0=spring start
+  // Tilt as seen sideways: rotates around so the axis appears to lean
+  // toward (summer) or away (winter) from the sun.
+  const apparentTilt = 23.5 * Math.cos(phase * 2 * Math.PI - Math.PI / 2);
+  let season, hint;
+  if (doy < 80 || doy >= 355) { season = 'Winter auf der Nordhalbkugel'; hint = 'Tage kurz, Sonne steht tief'; }
+  else if (doy < 172) { season = 'Frühling auf der Nordhalbkugel'; hint = 'Tage werden länger, alles wird warm'; }
+  else if (doy < 266) { season = 'Sommer auf der Nordhalbkugel'; hint = 'Tage am längsten, Sonne hoch am Himmel'; }
+  else { season = 'Herbst auf der Nordhalbkugel'; hint = 'Tage werden kürzer, Blätter fallen'; }
+  return { apparentTilt, season, hint };
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Scene 3 — Zodiac. Place 12 signs along the dashed path; place sun
+// marker at the position matching today's solar longitude.
+//
+// Real ecliptic longitudes (start dates of "tropical" zodiac):
+const ZODIAC = [
+  { sym: '♈', name: 'Widder',     start: 80 },   // Mar 21
+  { sym: '♉', name: 'Stier',      start: 110 },  // Apr 20
+  { sym: '♊', name: 'Zwillinge',  start: 141 },  // May 21
+  { sym: '♋', name: 'Krebs',      start: 172 },  // Jun 21
+  { sym: '♌', name: 'Löwe',       start: 203 },  // Jul 22
+  { sym: '♍', name: 'Jungfrau',   start: 234 },  // Aug 22
+  { sym: '♎', name: 'Waage',      start: 266 },  // Sep 23
+  { sym: '♏', name: 'Skorpion',   start: 297 },  // Oct 24
+  { sym: '♐', name: 'Schütze',    start: 326 },  // Nov 22
+  { sym: '♑', name: 'Steinbock',  start: 355 },  // Dec 21
+  { sym: '♒', name: 'Wassermann', start: 20 },   // Jan 20
+  { sym: '♓', name: 'Fische',     start: 50 },   // Feb 19
+];
+
+// Build the path-following positions.
+const zodiacPath = document.getElementById('zodiacPath');
+const signsLayer = document.getElementById('signs');
+const sunMarker = document.getElementById('sunMarker');
+const sunMarkerLabel = document.getElementById('sunMarkerLabel');
+const todaySignEl = document.getElementById('todaySign');
+
+const PATH_LEN = zodiacPath.getTotalLength();
+function pointAt(frac) {
+  // frac in 0..1
+  return zodiacPath.getPointAtLength(frac * PATH_LEN);
+}
+
+// Place each sign label evenly across the path.
+ZODIAC.forEach((z, i) => {
+  const frac = (i + 0.5) / ZODIAC.length;
+  const p = pointAt(frac);
+  const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  g.setAttribute('transform', `translate(${p.x} ${p.y})`);
+  g.innerHTML = `
+    <circle r="14" fill="rgba(182,156,255,0.15)" stroke="var(--zodiac)" stroke-width="1"/>
+    <text class="label-big" y="5" text-anchor="middle" fill="var(--zodiac)" style="font-size:16px;">${z.sym}</text>
+    <text class="label" y="34" text-anchor="middle">${z.name}</text>
+  `;
+  signsLayer.appendChild(g);
+});
+
+function zodiacFracForDoy(doy) {
+  // Find which sign index doy belongs to.
+  for (let i = 0; i < ZODIAC.length; i++) {
+    const cur = ZODIAC[i].start;
+    const next = ZODIAC[(i + 1) % ZODIAC.length].start;
+    const inSign = next > cur
+      ? (doy >= cur && doy < next)
+      : (doy >= cur || doy < next);
+    if (inSign) {
+      // progress within sign
+      const span = next > cur ? (next - cur) : (next + 365 - cur);
+      const into = next > cur ? (doy - cur) : ((doy - cur + 365) % 365);
+      return ((i + into / span) / ZODIAC.length);
+    }
+  }
+  return 0;
+}
+
+function zodiacSignForDoy(doy) {
+  for (let i = 0; i < ZODIAC.length; i++) {
+    const cur = ZODIAC[i].start;
+    const next = ZODIAC[(i + 1) % ZODIAC.length].start;
+    const inSign = next > cur
+      ? (doy >= cur && doy < next)
+      : (doy >= cur || doy < next);
+    if (inSign) return ZODIAC[i];
+  }
+  return ZODIAC[0];
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Update everything when the slider moves.
+
+function update(doy) {
+  const date = dayToDate(doy);
+  dayPill.textContent = fmtDE(date);
+
+  // 1. Earth orbit
+  const ep = earthPosition(doy);
+  earthEl.setAttribute('cx', ep.x);
+  earthEl.setAttribute('cy', ep.y);
+  earthLabelEl.setAttribute('x', ep.x);
+  earthLabelEl.setAttribute('y', ep.y - 22);
+  sunRay.setAttribute('x2', ep.x);
+  sunRay.setAttribute('y2', ep.y);
+
+  // 2. Tilt
+  const s = seasonInfo(doy);
+  axisGroup.setAttribute('transform', `rotate(${s.apparentTilt.toFixed(2)})`);
+  seasonLabel.textContent = s.season;
+  tiltLabel.textContent = s.hint;
+
+  // 3. Zodiac
+  const sign = zodiacSignForDoy(doy);
+  todaySignEl.textContent = `${sign.sym} ${sign.name}`;
+  const frac = zodiacFracForDoy(doy);
+  const p = pointAt(frac);
+  sunMarker.setAttribute('cx', p.x);
+  sunMarker.setAttribute('cy', p.y);
+  sunMarker.setAttribute('r', 14);
+  sunMarkerLabel.setAttribute('x', p.x);
+  sunMarkerLabel.setAttribute('y', p.y + 5);
+}
+
+dayInput.addEventListener('input', e => update(parseInt(e.target.value, 10)));
+
+// Initialise to today's day of year, falling back to slider value.
+const now = new Date();
+const start = new Date(now.getFullYear(), 0, 0);
+const doyToday = Math.floor((now - start) / 86400000);
+dayInput.value = String(doyToday);
+update(doyToday);
+</script>
+</body>
+</html>

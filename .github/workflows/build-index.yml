@@ -1,0 +1,70 @@
+name: Build projects.json
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "*/meta.json"
+      - ".github/workflows/build-index.yml"
+      - "scripts/build_index.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-index
+  cancel-in-progress: false
+
+jobs:
+  build:
+    # Skip the run that the bot itself just made — otherwise we ping-pong forever.
+    if: "!contains(github.event.head_commit.message, '[skip-index]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build projects.json
+        run: |
+          python3 - <<'PY'
+          import json, os, datetime, pathlib
+
+          out = []
+          for meta_path in sorted(pathlib.Path('.').glob('*/meta.json')):
+              folder = meta_path.parent.name
+              if folder.startswith('.') or folder in ('assets', 'scripts'):
+                  continue
+              try:
+                  meta = json.loads(meta_path.read_text(encoding='utf-8'))
+              except Exception as e:
+                  print(f"::warning::skipping {meta_path}: {e}")
+                  continue
+              meta.setdefault('slug', folder)
+              meta.setdefault('url', f'./{folder}/')
+              out.append(meta)
+
+          payload = {
+              'projects': out,
+              'generated_at': datetime.datetime.now(datetime.UTC).isoformat().replace('+00:00', 'Z'),
+              'count': len(out),
+          }
+          pathlib.Path('projects.json').write_text(
+              json.dumps(payload, indent=2, ensure_ascii=False) + '\n',
+              encoding='utf-8',
+          )
+          print(f"wrote projects.json with {len(out)} project(s)")
+          PY
+
+      - name: Commit if changed
+        run: |
+          if git diff --quiet projects.json; then
+            echo "no change"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add projects.json
+          git commit -m "chore(index): regenerate projects.json [skip-index]"
+          git push

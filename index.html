@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Familien-Werkstatt</title>
+<meta name="description" content="Kleine interaktive Lernprojekte zum Mitspielen — Astronomie, Physik, Sprache, was die Kinder gerade fragen.">
+<link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+<main>
+  <header class="hero">
+    <div class="kicker"><span lang="de">Familien-Werkstatt</span> · <span lang="en">Family Workshop</span></div>
+    <h1>
+      <span lang="de">Wenn die Kinder <em>fragen</em>,</span><br>
+      <span lang="de" class="muted">bauen wir eine Antwort.</span>
+    </h1>
+    <p class="lede">
+      Jede Karte unten ist eine kleine interaktive Webseite, die ein Thema spielerisch erklärt — Astronomie, Physik, Sprache, was gerade dran ist. Mit den Kids zusammen durchklicken, mit den Reglern spielen, weiterfragen.
+    </p>
+    <p class="lede en">
+      Each card below is a small interactive page that explains one topic playfully — astronomy, physics, language, whatever's next. Click through with your kids, play with the sliders, follow up with their questions.
+    </p>
+  </header>
+
+  <section class="search">
+    <input id="q" type="search" placeholder="Suche · search…" autocomplete="off" autocapitalize="off">
+
+    <div class="filters">
+      <fieldset id="filter-subject"><legend>Fach</legend></fieldset>
+      <fieldset id="filter-age"><legend>Alter</legend></fieldset>
+      <fieldset id="filter-language"><legend>Sprache</legend></fieldset>
+    </div>
+
+    <div class="meta-row">
+      <span id="count" class="count">…</span>
+      <button id="reset" class="reset" type="button">Filter zurücksetzen</button>
+    </div>
+  </section>
+
+  <section id="grid" class="grid"></section>
+
+  <footer>
+    <p>
+      <a href="https://github.com/rangulvers/familien-werkstatt" target="_blank" rel="noopener">Source on GitHub</a>
+      · MIT License
+      · gemacht mit den Kids und Claude
+    </p>
+  </footer>
+</main>
+
+<template id="card-tpl">
+  <a class="card">
+    <div class="card-body">
+      <div class="card-meta">
+        <span class="lang"></span>
+        <span class="ages"></span>
+      </div>
+      <h2 class="card-title"></h2>
+      <p class="card-summary"></p>
+      <ul class="card-tags"></ul>
+    </div>
+  </a>
+</template>
+
+<script src="./assets/search.js" type="module"></script>
+</body>
+</html>
