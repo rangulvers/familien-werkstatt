@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Warum schwimmt Eis?</title>
+<style>
+  :root {
+    --bg-1: #e8f3fa;
+    --bg-2: #c0deef;
+    --ink: #0c2236;
+    --ink-2: #2c4a68;
+    --ink-3: #6a82a0;
+    --ice: #d4ecf7;
+    --ice-deep: #4a90c4;
+    --water: #1864a3;
+    --water-light: #74b3df;
+    --frost: #f0fafe;
+    --hair: rgba(12,34,54,0.12);
+    --card: rgba(255,255,255,0.7);
+    --warning: #d4671c;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background:
+      radial-gradient(ellipse at top, var(--frost), var(--bg-1) 40%, var(--bg-2));
+    color: var(--ink); min-height: 100vh;
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, sans-serif;
+  }
+  /* Frost crystals decoration */
+  body::before {
+    content:"❄"; position: fixed; top: 8%; left: 5%; font-size: 80px; color: rgba(255,255,255,0.3); pointer-events: none;
+  }
+  body::after {
+    content:"❄"; position: fixed; bottom: 12%; right: 7%; font-size: 60px; color: rgba(255,255,255,0.3); pointer-events: none;
+  }
+  main { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; position: relative; }
+  .back { display: inline-block; color: var(--ink-2); text-decoration: none; font-size: 13px; margin-bottom: 20px; }
+  .back:hover { color: var(--ink); }
+  header { text-align: center; margin-bottom: 28px; }
+  .kicker { font: 11px/1 ui-monospace, monospace; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 12px; }
+  h1 { font: 600 42px/1.05 Georgia, serif; margin: 0; letter-spacing: -1px; }
+  h1 em { color: var(--ice-deep); font-style: italic; font-weight: 400; }
+  .lede { color: var(--ink-2); max-width: 640px; margin: 14px auto 0; font-size: 16px; }
+  section.card { background: var(--card); border: 1px solid var(--hair); border-radius: 18px; padding: 22px; margin-top: 20px; backdrop-filter: blur(8px); }
+  section h2 { font: 600 22px/1.2 Georgia, serif; margin: 0 0 6px; letter-spacing: -0.3px; }
+  section p.sub { color: var(--ink-2); margin: 0 0 16px; font-size: 14.5px; }
+  .controls { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin: 18px 0 6px; }
+  .controls label { font: 12px ui-monospace, monospace; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-3); }
+  input[type="range"] { flex: 1; min-width: 220px; accent-color: var(--ice-deep); height: 28px; }
+  .pill { display: inline-block; padding: 4px 12px; border-radius: 999px; background: rgba(74,144,196,0.15); color: var(--ice-deep); font: 13px ui-monospace, monospace; }
+  .twin { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 720px) { .twin { grid-template-columns: 1fr; } h1 { font-size: 32px; } }
+  canvas { display: block; width: 100%; max-width: 320px; height: 260px; margin: 0 auto; border-radius: 14px; }
+  .panel-title { font: 600 12px ui-monospace, monospace; letter-spacing: 1.2px; text-transform: uppercase; color: var(--ink-3); margin: 0 0 8px; text-align: center; }
+  .stats { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; }
+  .stat { background: rgba(74,144,196,0.08); border: 1px solid rgba(74,144,196,0.2); border-radius: 12px; padding: 10px 14px; flex: 1; min-width: 130px; }
+  .stat .lbl { font: 11px ui-monospace, monospace; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-3); }
+  .stat .val { font: 600 24px Georgia, serif; color: var(--ink); margin-top: 4px; }
+  .takeaway { margin-top: 24px; padding: 18px 22px; background: rgba(74,144,196,0.08); border: 1px dashed rgba(74,144,196,0.4); border-radius: 14px; }
+  .takeaway h3 { margin: 0 0 8px; font: 600 16px Georgia, serif; color: var(--ice-deep); }
+  details { margin-top: 8px; cursor: pointer; color: var(--ink-2); font-size: 14px; }
+  details summary { font-weight: 500; color: var(--ink); }
+  details p { margin: 8px 0 0; }
+  footer { margin-top: 40px; text-align: center; color: var(--ink-3); font-size: 12px; }
+  .glass-jar { display: flex; flex-direction: column; align-items: center; padding: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <a href="../" class="back">← zur Familien-Werkstatt</a>
+  <header>
+    <div class="kicker">Chemie · Aggregatzustände</div>
+    <h1>Warum schwimmt <em>Eis?</em></h1>
+    <p class="lede">
+      Fast alles wird beim Erstarren <em>kleiner</em> — Eis macht das Gegenteil. Wassermoleküle bauen beim Gefrieren ein luftiges Sechseck-Gitter und brauchen mehr Platz als flüssig. Mehr Platz bei gleichem Gewicht heißt: leichter pro Schluck — und das ist der Trick.
+    </p>
+  </header>
+
+  <section class="card">
+    <h2>Schiebe die Temperatur</h2>
+    <p class="sub">Über 0 °C zappeln die Moleküle wild durcheinander (Wasser). Bei 0 °C und drunter rasten sie ins Sechseck-Gitter ein (Eis). Schau dir den Unterschied auf den beiden Fenstern an.</p>
+
+    <div class="controls">
+      <label for="temp">Temperatur</label>
+      <input type="range" id="temp" min="-15" max="40" step="0.5" value="20">
+      <span class="pill" id="tempPill">20 °C</span>
+    </div>
+
+    <div class="twin">
+      <div class="glass-jar">
+        <div class="panel-title">Mikroskop-Blick</div>
+        <canvas id="micro" width="320" height="260"></canvas>
+      </div>
+      <div class="glass-jar">
+        <div class="panel-title">Im Glas</div>
+        <canvas id="glass" width="320" height="260"></canvas>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="lbl">Zustand</div>
+        <div class="val" id="state">flüssig</div>
+      </div>
+      <div class="stat">
+        <div class="lbl">Dichte</div>
+        <div class="val" id="density">1,000 g/cm³</div>
+      </div>
+      <div class="stat">
+        <div class="lbl">Schwimmt?</div>
+        <div class="val" id="floats">—</div>
+      </div>
+    </div>
+  </section>
+
+  <details>
+    <summary>Wieso macht Wasser das überhaupt anders als andere Stoffe?</summary>
+    <p>Wassermoleküle haben winzige „Magneten" an sich (Wasserstoffbrücken). Beim Gefrieren ziehen sich diese Magneten in einem ganz bestimmten Winkel an — und das zwingt die Moleküle in das offene Sechseck. Im flüssigen Wasser flutscht alles dichter aneinander.</p>
+  </details>
+  <details>
+    <summary>Warum ist das gut für die Welt?</summary>
+    <p>Weil Eis oben schwimmt, friert ein See nur an der Oberfläche zu. Darunter bleibt es flüssig — Fische und Pflanzen überleben den Winter. Würde Eis sinken, würden Seen von unten zufrieren bis sie zu Eisblöcken werden.</p>
+  </details>
+
+  <div class="takeaway">
+    <h3>Zum Mitnehmen</h3>
+    <p style="margin:0;">Eis ist nicht „kälter" als Wasser, weil's leichter ist — es ist <em>luftiger gepackt</em>. Gleiche Anzahl Moleküle, mehr Platz, also weniger Dichte. Dichte unter Wasser = schwimmt oben. Im Cocktail, im See, am Nordpol — überall der gleiche Trick.</p>
+  </div>
+
+  <footer>Familien-Werkstatt · gemacht mit den Kids</footer>
+</main>
+
+<script>
+// ── Setup ─────────────────────────────────────────────────────────────
+const tempInput = document.getElementById('temp');
+const tempPill = document.getElementById('tempPill');
+const stateEl = document.getElementById('state');
+const densityEl = document.getElementById('density');
+const floatsEl = document.getElementById('floats');
+
+const microCanvas = document.getElementById('micro');
+const glassCanvas = document.getElementById('glass');
+const mctx = microCanvas.getContext('2d');
+const gctx = glassCanvas.getContext('2d');
+
+const W = 320, H = 260;
+
+// Build hex lattice positions for ice phase.
+function hexLattice(rows, cols, spacing) {
+  const pts = [];
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const x = c * spacing + (r % 2 ? spacing / 2 : 0) + 30;
+      const y = r * spacing * 0.866 + 30;
+      pts.push({ x, y, vx: 0, vy: 0 });
+    }
+  }
+  return pts;
+}
+
+// Initial molecules — start as a hex lattice with random offsets
+const N = 56;
+const ICE = hexLattice(7, 8, 30);  // 56 spots
+const molecules = ICE.map((p, i) => ({
+  ix: p.x, iy: p.y,
+  x: p.x + (Math.random() - 0.5) * 4,
+  y: p.y + (Math.random() - 0.5) * 4,
+  vx: 0, vy: 0,
+}));
+
+// ── Animation loop ───────────────────────────────────────────────────
+let temp = 20;
+
+function isIce(t) { return t <= 0; }
+
+function tick() {
+  const t = temp;
+  const ice = isIce(t);
+
+  // Energy maps temperature to molecule speed/jiggle.
+  // -15..0 → low; 0..40 → ramp up.
+  const energy = ice
+    ? Math.max(0.05, (15 + t) / 30 * 0.2)
+    : 0.3 + Math.min(1.5, t / 40 * 1.4);
+
+  // Pull strength toward the lattice point (high in ice, low in water).
+  const lattice = ice ? 0.06 : 0;
+
+  for (const m of molecules) {
+    if (ice) {
+      // Pull toward home point + small random jiggle
+      m.vx += (m.ix - m.x) * lattice + (Math.random() - 0.5) * energy * 0.4;
+      m.vy += (m.iy - m.y) * lattice + (Math.random() - 0.5) * energy * 0.4;
+    } else {
+      // Free random motion, with gentle bound-back from edges
+      m.vx += (Math.random() - 0.5) * energy;
+      m.vy += (Math.random() - 0.5) * energy;
+    }
+    // Damping
+    m.vx *= 0.88; m.vy *= 0.88;
+    m.x += m.vx; m.y += m.vy;
+
+    // Bounds
+    if (m.x < 12) { m.x = 12; m.vx *= -0.5; }
+    if (m.x > W - 12) { m.x = W - 12; m.vx *= -0.5; }
+    if (m.y < 12) { m.y = 12; m.vy *= -0.5; }
+    if (m.y > H - 12) { m.y = H - 12; m.vy *= -0.5; }
+  }
+
+  drawMicro(ice);
+  drawGlass(ice);
+  requestAnimationFrame(tick);
+}
+
+function drawMicro(ice) {
+  mctx.clearRect(0, 0, W, H);
+  // Background
+  mctx.fillStyle = ice ? '#e6f3fa' : '#dfeefa';
+  mctx.fillRect(0, 0, W, H);
+  // Bonds (only show in ice for clarity)
+  if (ice) {
+    mctx.strokeStyle = 'rgba(74,144,196,0.4)';
+    mctx.lineWidth = 1;
+    for (let i = 0; i < molecules.length; i++) {
+      for (let j = i + 1; j < molecules.length; j++) {
+        const a = molecules[i], b = molecules[j];
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < 34) {
+          mctx.beginPath();
+          mctx.moveTo(a.x, a.y);
+          mctx.lineTo(b.x, b.y);
+          mctx.stroke();
+        }
+      }
+    }
+  }
+  // Molecules
+  for (const m of molecules) {
+    mctx.beginPath();
+    mctx.arc(m.x, m.y, 7, 0, Math.PI * 2);
+    mctx.fillStyle = ice ? '#74b3df' : '#1864a3';
+    mctx.fill();
+    mctx.strokeStyle = ice ? '#4a90c4' : '#0c4c80';
+    mctx.lineWidth = 1.5;
+    mctx.stroke();
+  }
+  // Caption
+  mctx.fillStyle = '#0c2236';
+  mctx.font = 'bold 14px ui-monospace';
+  mctx.fillText(ice ? 'Sechseck-Gitter (Eis)' : 'Wirre Bewegung (Wasser)', 16, 250);
+}
+
+function drawGlass(ice) {
+  gctx.clearRect(0, 0, W, H);
+  // Glass outline
+  gctx.fillStyle = '#fff';
+  gctx.beginPath();
+  gctx.moveTo(70, 30);
+  gctx.lineTo(60, 220);
+  gctx.lineTo(260, 220);
+  gctx.lineTo(250, 30);
+  gctx.closePath();
+  gctx.fill();
+  gctx.strokeStyle = '#bbd';
+  gctx.lineWidth = 1.5;
+  gctx.stroke();
+
+  // Water inside
+  gctx.fillStyle = '#74b3df';
+  gctx.fillRect(62, 80, 196, 138);
+
+  if (ice) {
+    // An ice cube floating at the top
+    gctx.fillStyle = '#dff1fb';
+    gctx.strokeStyle = '#4a90c4';
+    gctx.lineWidth = 1.5;
+    gctx.beginPath();
+    // Slightly irregular cube with rounded corners
+    gctx.roundRect(110, 70, 100, 50, 8);
+    gctx.fill();
+    gctx.stroke();
+    // Reflection highlight
+    gctx.fillStyle = 'rgba(255,255,255,0.6)';
+    gctx.fillRect(118, 78, 28, 6);
+    // Caption
+    gctx.fillStyle = '#0c2236';
+    gctx.font = 'bold 14px ui-monospace';
+    gctx.fillText('Eis schwimmt!', 100, 250);
+  } else {
+    gctx.fillStyle = '#0c2236';
+    gctx.font = 'bold 14px ui-monospace';
+    gctx.fillText('Wasser im Glas', 100, 250);
+  }
+}
+
+// Polyfill roundRect for older browsers
+if (!CanvasRenderingContext2D.prototype.roundRect) {
+  CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+    if (typeof r === 'number') r = { tl: r, tr: r, br: r, bl: r };
+    this.beginPath();
+    this.moveTo(x + r.tl, y);
+    this.lineTo(x + w - r.tr, y);
+    this.quadraticCurveTo(x + w, y, x + w, y + r.tr);
+    this.lineTo(x + w, y + h - r.br);
+    this.quadraticCurveTo(x + w, y + h, x + w - r.br, y + h);
+    this.lineTo(x + r.bl, y + h);
+    this.quadraticCurveTo(x, y + h, x, y + h - r.bl);
+    this.lineTo(x, y + r.tl);
+    this.quadraticCurveTo(x, y, x + r.tl, y);
+    this.closePath();
+  };
+}
+
+function update(t) {
+  temp = t;
+  tempPill.textContent = `${t.toFixed(1)} °C`;
+  if (t < -5) stateEl.textContent = 'fest (Eis)';
+  else if (t <= 0) stateEl.textContent = 'fest (eisig)';
+  else if (t < 5) stateEl.textContent = 'flüssig (kalt)';
+  else if (t < 30) stateEl.textContent = 'flüssig';
+  else stateEl.textContent = 'flüssig (warm)';
+
+  // Density: water peaks at 4°C (1.000 g/cm³), drops slightly with heat,
+  // jumps DOWN at freezing.
+  let dens;
+  if (t <= 0) dens = 0.917;
+  else if (t < 4) dens = 0.9999 - (4 - t) * 0.00001;
+  else dens = 1.000 - (t - 4) * 0.0003;
+  densityEl.textContent = `${dens.toFixed(3)} g/cm³`;
+
+  floatsEl.textContent = (t <= 0) ? 'ja ✓' : '—';
+  floatsEl.style.color = (t <= 0) ? 'var(--ice-deep)' : 'var(--ink-3)';
+}
+
+tempInput.addEventListener('input', e => update(parseFloat(e.target.value)));
+update(parseFloat(tempInput.value));
+tick();
+</script>
+</body>
+</html>

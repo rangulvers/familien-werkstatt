@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Warum ist der Himmel blau?</title>
+<style>
+  :root {
+    --sky-day: #6fc3ff;
+    --sky-noon: #4ea0ff;
+    --sky-deep: #1f4a82;
+    --sky-sunset: #ff8645;
+    --sky-twilight: #5a3a78;
+    --ink: #0a1224;
+    --ink-2: #2c4264;
+    --ink-3: #6a7a90;
+    --paper: #fafbfd;
+    --hair: rgba(10,18,36,0.12);
+    --card: #ffffffd9;
+    --blue: #4ea0ff;
+    --red:  #ff6b48;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background:
+      linear-gradient(180deg, var(--sky-day) 0%, #cae6ff 60%, #f5f1e3 100%);
+    color: var(--ink); min-height: 100vh;
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, sans-serif;
+    transition: background 0.5s ease;
+  }
+  body.evening {
+    background: linear-gradient(180deg, var(--sky-twilight) 0%, var(--sky-sunset) 60%, #ffd189 100%);
+  }
+  body.deep-evening {
+    background: linear-gradient(180deg, #2a1f4d 0%, #c43b1f 50%, #ff8645 90%);
+  }
+  body.night {
+    background: linear-gradient(180deg, #0a0e1f 0%, #1a2440 100%);
+    color: #f0f2f8;
+  }
+  body.night .card { background: rgba(255,255,255,0.06); color: #f0f2f8; }
+  body.night a.back, body.night .lede, body.night .sub { color: rgba(255,255,255,0.7); }
+  main { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }
+  .back { display: inline-block; color: var(--ink-2); text-decoration: none; font-size: 13px; margin-bottom: 20px; }
+  .back:hover { color: var(--ink); }
+  header { text-align: center; margin-bottom: 28px; }
+  .kicker { font: 11px/1 ui-monospace, monospace; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 12px; }
+  h1 { font: 600 42px/1.05 Georgia, serif; margin: 0; letter-spacing: -1px; }
+  h1 em { color: var(--blue); font-style: italic; font-weight: 400; }
+  body.evening h1 em, body.deep-evening h1 em { color: #ff3a1f; }
+  .lede { color: var(--ink-2); max-width: 640px; margin: 14px auto 0; font-size: 16px; }
+  section.card { background: var(--card); border: 1px solid var(--hair); border-radius: 18px; padding: 22px; margin-top: 20px; backdrop-filter: blur(10px); }
+  section h2 { font: 600 22px/1.2 Georgia, serif; margin: 0 0 6px; letter-spacing: -0.3px; }
+  section p.sub { color: var(--ink-2); margin: 0 0 16px; font-size: 14.5px; }
+  .controls { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin: 18px 0 6px; }
+  .controls label { font: 12px ui-monospace, monospace; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-3); }
+  input[type="range"] { flex: 1; min-width: 220px; accent-color: var(--blue); height: 28px; }
+  .pill { display: inline-block; padding: 4px 12px; border-radius: 999px; background: rgba(78,160,255,0.15); color: var(--blue); font: 13px ui-monospace, monospace; }
+  body.evening .pill, body.deep-evening .pill { background: rgba(255,107,72,0.18); color: var(--red); }
+  svg { display: block; width: 100%; height: auto; }
+  .label { font: 12px ui-monospace, monospace; fill: var(--ink-2); }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 14px; font-size: 13px; color: var(--ink-2); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .takeaway { margin-top: 24px; padding: 18px 22px; background: rgba(78,160,255,0.08); border: 1px dashed rgba(78,160,255,0.4); border-radius: 14px; }
+  .takeaway h3 { margin: 0 0 8px; font: 600 16px Georgia, serif; color: var(--blue); }
+  details { margin-top: 8px; cursor: pointer; color: var(--ink-2); font-size: 14px; }
+  details summary { font-weight: 500; color: var(--ink); }
+  details p { margin: 8px 0 0; }
+  footer { margin-top: 40px; text-align: center; color: var(--ink-3); font-size: 12px; }
+  @media (max-width: 600px) { h1 { font-size: 32px; } }
+</style>
+</head>
+<body>
+<main>
+  <a href="../" class="back">← zur Familien-Werkstatt</a>
+  <header>
+    <div class="kicker">Physik · Licht & Streuung</div>
+    <h1>Warum ist der Himmel <em>blau?</em></h1>
+    <p class="lede">
+      Sonnenlicht ist eigentlich weiß — also ein Mix aus allen Farben. Wenn es durch die Luft kommt, stoßen die Lichtteilchen ständig auf Luftmoleküle und werden in alle Richtungen abgelenkt. Blaues Licht wird dabei viel stärker abgelenkt als rotes. Deshalb sieht der Himmel blau aus.
+    </p>
+  </header>
+
+  <section class="card">
+    <h2>Schiebe die Sonne durch den Tag</h2>
+    <p class="sub">Bei hochstehender Sonne fliegt das Licht kurz durch die Luft → blau gewinnt → blauer Himmel. Beim Sonnenuntergang ist der Weg lang → blau ist schon weg-gestreut → wir sehen nur noch rot/orange.</p>
+
+    <div class="controls">
+      <label for="sun">Sonnenstand</label>
+      <input type="range" id="sun" min="0" max="100" value="80">
+      <span class="pill" id="timePill">Mittag</span>
+    </div>
+
+    <svg viewBox="0 0 600 340" aria-label="Atmosphäre und Sonne">
+      <!-- Atmosphere arc -->
+      <defs>
+        <linearGradient id="atmoGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#0a1d3f" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#cae6ff" stop-opacity="0.2"/>
+        </linearGradient>
+        <radialGradient id="sunGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fff7d6"/>
+          <stop offset="60%" stop-color="#ffd66b"/>
+          <stop offset="100%" stop-color="#ffae3b"/>
+        </radialGradient>
+      </defs>
+
+      <!-- Earth surface -->
+      <path d="M 0 280 Q 300 250 600 280 L 600 340 L 0 340 Z" fill="#3a4d2a"/>
+      <!-- Atmosphere as half-ellipse -->
+      <path d="M 30 280 A 270 220 0 0 1 570 280" fill="url(#atmoGrad)" stroke="rgba(0,0,0,0.1)"/>
+
+      <!-- Observer (kid icon) -->
+      <g transform="translate(300 275)">
+        <circle r="6" fill="#1a2238"/>
+        <path d="M -4 6 L -4 18 L 4 18 L 4 6 Z" fill="#ff6f6b"/>
+      </g>
+
+      <!-- Sun (positioned by JS along the arc) -->
+      <g id="sunGroup">
+        <circle id="sun-core" cx="300" cy="80" r="22" fill="url(#sunGrad)"/>
+      </g>
+
+      <!-- Light path (line from sun to observer) -->
+      <line id="lightPath" x1="300" y1="80" x2="300" y2="275"
+            stroke="#fff" stroke-width="2" stroke-dasharray="3 3" opacity="0.7"/>
+
+      <!-- Scattering particles (built dynamically by JS) -->
+      <g id="particles"></g>
+
+      <text id="distanceLabel" class="label" x="300" y="320" text-anchor="middle">kurzer Weg durch die Luft</text>
+    </svg>
+  </section>
+
+  <section class="card">
+    <h2>Warum gerade Blau?</h2>
+    <p class="sub">Licht ist eine Welle. Blaue Wellen sind kurz und „zappeln" schneller — sie stoßen viel öfter mit Luftmolekülen zusammen als die langen, ruhigen roten Wellen.</p>
+
+    <svg viewBox="0 0 600 220" aria-label="Lichtwellen Vergleich">
+      <!-- Blue wave -->
+      <path d="M 30 70 Q 50 30 70 70 T 110 70 T 150 70 T 190 70 T 230 70 T 270 70 T 310 70 T 350 70 T 390 70 T 430 70 T 470 70 T 510 70 T 550 70"
+            fill="none" stroke="#4ea0ff" stroke-width="3"/>
+      <text class="label" x="565" y="74" fill="#4ea0ff">blau (kurz, zappelig)</text>
+
+      <!-- Red wave -->
+      <path d="M 30 160 Q 80 110 130 160 T 230 160 T 330 160 T 430 160 T 530 160"
+            fill="none" stroke="#ff6b48" stroke-width="3"/>
+      <text class="label" x="565" y="164" fill="#ff6b48">rot (lang, ruhig)</text>
+    </svg>
+    <p class="sub" style="margin-top:14px;">In der gleichen Strecke macht die blaue Welle ungefähr dreimal so viele „Hügel" wie die rote — also dreimal so viele Chancen, ein Luftmolekül zu treffen.</p>
+  </section>
+
+  <details>
+    <summary>Warum sind Wolken trotzdem weiß?</summary>
+    <p>Wolken bestehen aus winzigen Wassertröpfchen, die viel größer sind als Luftmoleküle. Sie streuen alle Farben gleich — also bleibt das Licht weiß.</p>
+  </details>
+  <details>
+    <summary>Und warum ist der Mars-Himmel rot?</summary>
+    <p>Auf dem Mars liegt feiner roter Staub in der Luft. Der streut bevorzugt das rote Licht — genau umgekehrt wie bei uns. Deshalb sehen Astronauten dort einen rötlichen Tag.</p>
+  </details>
+
+  <div class="takeaway">
+    <h3>Zum Mitnehmen</h3>
+    <p style="margin:0;">Sonnenlicht ist weiß. Luftmoleküle streuen das blaue Licht etwa zehnmal stärker als das rote. Wenn die Sonne hoch steht, sehen wir das gestreute Blau überall am Himmel. Wenn sie tief steht, hat das Blau die Luft schon verlassen — und übrig bleiben Orange und Rot.</p>
+  </div>
+
+  <footer>Familien-Werkstatt · gemacht mit den Kids</footer>
+</main>
+
+<script>
+const sunInput = document.getElementById('sun');
+const timePill = document.getElementById('timePill');
+const sunCore = document.getElementById('sun-core');
+const lightPath = document.getElementById('lightPath');
+const distanceLabel = document.getElementById('distanceLabel');
+const particles = document.getElementById('particles');
+
+// Scattering particles along the light path: lots of small dots, mostly blue,
+// fewer red. Density is constant in air; what changes is the path length.
+function buildParticles(sx, sy, ox, oy) {
+  particles.innerHTML = '';
+  const dx = ox - sx, dy = oy - sy;
+  const len = Math.hypot(dx, dy);
+  const N = Math.max(20, Math.round(len / 8));
+  for (let i = 1; i < N; i++) {
+    const t = i / N;
+    // Perpendicular jitter so dots fan out
+    const px = sx + dx * t + (Math.random() - 0.5) * 30;
+    const py = sy + dy * t + (Math.random() - 0.5) * 12;
+    const isBlue = Math.random() < 0.78;  // blue scatters ~3-10× as often
+    const r = 2 + Math.random() * 1.5;
+    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('cx', px);
+    c.setAttribute('cy', py);
+    c.setAttribute('r', r);
+    c.setAttribute('fill', isBlue ? '#4ea0ff' : '#ff6b48');
+    c.setAttribute('opacity', 0.6 + Math.random() * 0.3);
+    particles.appendChild(c);
+  }
+}
+
+function update(v) {
+  // v: 0 = horizon (left), 50 = noon (top), 100 = horizon (right)
+  // Map to angle on the dome. 0 → π (left), 50 → π/2 (top), 100 → 0 (right)
+  const angle = Math.PI * (1 - v / 100);
+  const cx = 300, cy = 280;
+  const rx = 270, ry = 200;
+  const sx = cx + rx * Math.cos(angle);
+  const sy = cy - ry * Math.sin(angle);
+  sunCore.setAttribute('cx', sx);
+  sunCore.setAttribute('cy', sy);
+  lightPath.setAttribute('x1', sx);
+  lightPath.setAttribute('y1', sy);
+
+  // Path length
+  const len = Math.hypot(300 - sx, 275 - sy);
+  buildParticles(sx, sy, 300, 275);
+
+  // Time-of-day labels + body class for sky color
+  document.body.classList.remove('evening', 'deep-evening', 'night');
+  let label = 'Mittag';
+  if (v > 95 || v < 5) { label = 'Nacht'; document.body.classList.add('night'); }
+  else if (v > 85) { label = 'Sonnenuntergang'; document.body.classList.add('deep-evening'); }
+  else if (v > 70) { label = 'Spätnachmittag'; document.body.classList.add('evening'); }
+  else if (v < 15) { label = 'Sonnenaufgang'; document.body.classList.add('deep-evening'); }
+  else if (v < 30) { label = 'Frühmorgens'; document.body.classList.add('evening'); }
+  timePill.textContent = label;
+
+  // Distance text
+  if (len < 220) distanceLabel.textContent = 'kurzer Weg durch die Luft → wir sehen das gestreute Blau';
+  else if (len < 320) distanceLabel.textContent = 'längerer Weg → Blau wird weniger, Orange kommt durch';
+  else distanceLabel.textContent = 'sehr langer Weg → Blau ist weg-gestreut, übrig bleibt Rot';
+}
+
+sunInput.addEventListener('input', e => update(parseFloat(e.target.value)));
+update(parseFloat(sunInput.value));
+</script>
+</body>
+</html>

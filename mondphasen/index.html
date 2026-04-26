@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Warum ändert der Mond seine Form?</title>
+<style>
+  :root {
+    --bg-1: #02050f;
+    --bg-2: #0a1332;
+    --ink: #e8e6f4;
+    --ink-2: #b6b1d2;
+    --ink-3: #6f6a8a;
+    --silver: #f4f0e3;
+    --silver-2: #d6d2c0;
+    --gold: #ffd66b;
+    --night: #1a1f3d;
+    --hair: rgba(255,255,255,0.12);
+    --card: rgba(255,255,255,0.04);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: radial-gradient(ellipse at top, var(--bg-2) 0%, var(--bg-1) 75%);
+    color: var(--ink); min-height: 100vh;
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, sans-serif;
+  }
+  body::before {
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image:
+      radial-gradient(1px 1px at 8% 12%, #fff 50%, transparent 51%),
+      radial-gradient(1px 1px at 71% 22%, #fff 50%, transparent 51%),
+      radial-gradient(1px 1px at 29% 50%, #fff 50%, transparent 51%),
+      radial-gradient(2px 2px at 88% 70%, #fff 50%, transparent 51%),
+      radial-gradient(1px 1px at 42% 80%, #fff 50%, transparent 51%),
+      radial-gradient(1px 1px at 14% 90%, #fff 50%, transparent 51%),
+      radial-gradient(2px 2px at 60% 35%, #fff 50%, transparent 51%);
+    opacity: 0.65;
+  }
+  main { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; position: relative; z-index: 1; }
+  .back { display: inline-block; color: var(--ink-3); text-decoration: none; font-size: 13px; margin-bottom: 20px; }
+  .back:hover { color: var(--ink); }
+  header { text-align: center; margin-bottom: 28px; }
+  .kicker { font: 11px/1 ui-monospace, monospace; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 12px; }
+  h1 { font: 600 42px/1.05 Georgia, serif; margin: 0; letter-spacing: -1px; }
+  h1 em { color: var(--silver); font-style: italic; font-weight: 400; }
+  .lede { color: var(--ink-2); max-width: 640px; margin: 14px auto 0; font-size: 16px; }
+  section.card { background: var(--card); border: 1px solid var(--hair); border-radius: 18px; padding: 22px; margin-top: 20px; backdrop-filter: blur(6px); }
+  section h2 { font: 600 22px/1.2 Georgia, serif; margin: 0 0 6px; letter-spacing: -0.3px; }
+  section p.sub { color: var(--ink-2); margin: 0 0 16px; font-size: 14.5px; }
+  .controls { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin: 18px 0 6px; }
+  .controls label { font: 12px ui-monospace, monospace; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-3); }
+  input[type="range"] { flex: 1; min-width: 220px; accent-color: var(--silver); height: 28px; }
+  .pill { display: inline-block; padding: 4px 12px; border-radius: 999px; background: rgba(244,240,227,0.15); color: var(--silver); font: 13px ui-monospace, monospace; }
+  .twin { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 600px) { .twin { grid-template-columns: 1fr; } h1 { font-size: 32px; } }
+  svg { display: block; width: 100%; height: auto; }
+  .label { font: 12px ui-monospace, monospace; fill: var(--ink-2); letter-spacing: 0.5px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 14px; font-size: 13px; color: var(--ink-2); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .takeaway { margin-top: 24px; padding: 18px 22px; background: rgba(244,240,227,0.06); border: 1px dashed rgba(244,240,227,0.3); border-radius: 14px; }
+  .takeaway h3 { margin: 0 0 8px; font: 600 16px Georgia, serif; color: var(--silver); }
+  details { margin-top: 8px; cursor: pointer; color: var(--ink-2); font-size: 14px; }
+  details summary { font-weight: 500; color: var(--ink); }
+  details p { margin: 8px 0 0; }
+  footer { margin-top: 40px; text-align: center; color: var(--ink-3); font-size: 12px; }
+  .panel-title { font: 600 13px ui-monospace, monospace; letter-spacing: 1.2px; text-transform: uppercase; color: var(--ink-3); margin: 0 0 10px; text-align: center; }
+</style>
+</head>
+<body>
+<main>
+  <a href="../" class="back">← zur Familien-Werkstatt</a>
+  <header>
+    <div class="kicker">Astronomie · 6 bis 12 Jahre</div>
+    <h1>Warum ändert der Mond seine <em>Form?</em></h1>
+    <p class="lede">
+      Der Mond ändert sich nicht wirklich. Er ist immer eine ganze Kugel — wir sehen nur unterschiedlich viel davon beleuchtet, weil die Sonne immer aus einer anderen Richtung scheint und der Mond gerade woanders um die Erde steht.
+    </p>
+  </header>
+
+  <section class="card">
+    <h2>Schiebe einen Tag im Monat</h2>
+    <p class="sub">Links siehst du das Universum von oben (Sonne, Erde, Mond). Rechts wie der Mond an dem Tag von der Erde aus aussieht.</p>
+
+    <div class="controls">
+      <label for="day">Tag</label>
+      <input type="range" id="day" min="0" max="29" step="0.1" value="14">
+      <span class="pill" id="phasePill">Vollmond</span>
+    </div>
+
+    <div class="twin">
+      <div>
+        <div class="panel-title">Aus dem All gesehen</div>
+        <svg viewBox="0 0 340 340" aria-label="Top-down Darstellung">
+          <defs>
+            <radialGradient id="sunGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#fff7d6"/>
+              <stop offset="40%" stop-color="#ffd66b"/>
+              <stop offset="100%" stop-color="#ffae3b"/>
+            </radialGradient>
+            <radialGradient id="earthGrad" cx="35%" cy="35%" r="65%">
+              <stop offset="0%" stop-color="#a8d4ff"/>
+              <stop offset="60%" stop-color="#5cb1f7"/>
+              <stop offset="100%" stop-color="#1a4380"/>
+            </radialGradient>
+            <radialGradient id="moonLitTop" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#fff"/>
+              <stop offset="80%" stop-color="#d6d2c0"/>
+              <stop offset="100%" stop-color="#9a9686"/>
+            </radialGradient>
+          </defs>
+
+          <!-- Moon orbit -->
+          <circle cx="170" cy="170" r="120" fill="none" stroke="rgba(255,255,255,0.15)" stroke-dasharray="3 5"/>
+
+          <!-- Sun (left) — light comes from there -->
+          <circle cx="0" cy="170" r="40" fill="url(#sunGrad)" opacity="0.95"/>
+          <text class="label" x="50" y="174">Sonne (Licht kommt von links)</text>
+
+          <!-- Earth -->
+          <circle cx="170" cy="170" r="22" fill="url(#earthGrad)"/>
+          <text class="label" x="170" y="200" text-anchor="middle">Erde</text>
+
+          <!-- Moon (lit half always faces sun = the left side) -->
+          <g id="moonTop">
+            <!-- shadow side (full sphere) -->
+            <circle cx="290" cy="170" r="14" fill="#3a3a4d"/>
+            <!-- lit half — clipped half-circle on the sun-facing side -->
+            <path d="M 290 156 A 14 14 0 0 0 290 184 Z" fill="url(#moonLitTop)"/>
+          </g>
+        </svg>
+      </div>
+
+      <div>
+        <div class="panel-title">Vom Garten aus gesehen</div>
+        <svg viewBox="0 0 340 340" aria-label="Mond-Phase wie sie aussieht">
+          <defs>
+            <radialGradient id="moonLit" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#fff"/>
+              <stop offset="80%" stop-color="#d6d2c0"/>
+              <stop offset="100%" stop-color="#9a9686"/>
+            </radialGradient>
+          </defs>
+          <!-- Sky background subtle -->
+          <rect x="0" y="0" width="340" height="340" rx="20" fill="rgba(10,19,50,0.4)"/>
+          <g id="moonView" transform="translate(170 170)">
+            <circle r="100" fill="#222238"/>
+            <path id="phasePath" d="" fill="url(#moonLit)"/>
+            <!-- Crater texture for charm -->
+            <circle cx="-25" cy="-30" r="6" fill="rgba(0,0,0,0.07)"/>
+            <circle cx="20" cy="15" r="10" fill="rgba(0,0,0,0.05)"/>
+            <circle cx="-12" cy="40" r="7" fill="rgba(0,0,0,0.06)"/>
+          </g>
+          <text class="label" x="170" y="320" text-anchor="middle" id="phaseName">Vollmond</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="legend">
+      <span><i class="dot" style="background:var(--gold)"></i>Sonne</span>
+      <span><i class="dot" style="background:#5cb1f7"></i>Erde</span>
+      <span><i class="dot" style="background:var(--silver)"></i>Mond (nur die der Sonne zugewandte Hälfte leuchtet)</span>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Die acht klassischen Phasen</h2>
+    <p class="sub">Ein voller Mondzyklus dauert ungefähr 29,5 Tage. Diese acht Bilder fassen ihn zusammen — tipp drauf, der Schieber oben springt hin.</p>
+    <div id="phaseStrip" style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:8px;"></div>
+  </section>
+
+  <details>
+    <summary>Warum sehen wir den Mond manchmal sogar tagsüber?</summary>
+    <p>Weil er einfach am Himmel steht — egal ob die Sonne gerade auch da ist. Bei zunehmendem Halbmond (etwa Tag 7) geht er gegen Mittag auf und ist nachmittags klar zu sehen.</p>
+  </details>
+  <details>
+    <summary>Warum hat der Mond auf der Vorderseite immer die gleichen Flecken?</summary>
+    <p>Der Mond dreht sich genau einmal pro Umlauf um sich selbst — er zeigt uns immer die gleiche Seite. Die Rückseite (die „dunkle Seite") sehen wir vom Erdboden aus nie.</p>
+  </details>
+
+  <div class="takeaway">
+    <h3>Zum Mitnehmen</h3>
+    <p style="margin:0;">Der Mond ist immer gleich kugelig. Wir sehen nur den Teil, den die Sonne gerade beleuchtet — und je nach Position des Mondes auf seiner Bahn sehen wir mal mehr (Vollmond), mal weniger (Sichel), mal gar nichts (Neumond).</p>
+  </div>
+
+  <footer>Familien-Werkstatt · gemacht mit den Kids</footer>
+</main>
+
+<script>
+const dayInput = document.getElementById('day');
+const phasePill = document.getElementById('phasePill');
+const phaseName = document.getElementById('phaseName');
+const moonTop = document.getElementById('moonTop');
+const phasePath = document.getElementById('phasePath');
+const stripEl = document.getElementById('phaseStrip');
+
+const PHASES = [
+  { name: 'Neumond',          day: 0,    illum: 0,    waxing: true  },
+  { name: 'Zunehmende Sichel',day: 3.7,  illum: 0.25, waxing: true  },
+  { name: 'Erstes Viertel',   day: 7.4,  illum: 0.5,  waxing: true  },
+  { name: 'Zunehmender Mond', day: 11.1, illum: 0.75, waxing: true  },
+  { name: 'Vollmond',         day: 14.8, illum: 1,    waxing: true  },
+  { name: 'Abnehmender Mond', day: 18.5, illum: 0.75, waxing: false },
+  { name: 'Letztes Viertel',  day: 22.1, illum: 0.5,  waxing: false },
+  { name: 'Abnehmende Sichel',day: 25.8, illum: 0.25, waxing: false },
+];
+
+const CYCLE = 29.5;
+
+function dayToPhaseFrac(d) { return (d % CYCLE) / CYCLE; }
+
+function illumAndWaxing(d) {
+  // Smooth illumination via cosine: 0 at new (d=0), 1 at full (d=14.75)
+  const f = dayToPhaseFrac(d);
+  const illum = 0.5 * (1 - Math.cos(2 * Math.PI * f));
+  const waxing = f < 0.5;
+  return { illum, waxing, f };
+}
+
+function nameFor(d) {
+  const f = dayToPhaseFrac(d) * CYCLE;
+  // pick nearest phase by day
+  let best = PHASES[0]; let bd = Infinity;
+  for (const p of PHASES) {
+    const dist = Math.min(Math.abs(p.day - f), CYCLE - Math.abs(p.day - f));
+    if (dist < bd) { bd = dist; best = p; }
+  }
+  return best.name;
+}
+
+function phasePathFor(illum, waxing, R = 100) {
+  // Build SVG path that fills the lit fraction of a circle of radius R.
+  // Based on the parametric trick: outer circle arc + inner ellipse arc.
+  // illum 0..1, waxing → lit on the right side, else left.
+  if (illum <= 0.001) return '';
+  if (illum >= 0.999) {
+    // Full circle
+    return `M 0 ${-R} A ${R} ${R} 0 1 1 0 ${R} A ${R} ${R} 0 1 1 0 ${-R} Z`;
+  }
+  // The terminator (boundary between lit and dark) is an ellipse from
+  // top to bottom of the moon. Its x-radius = R * |1 - 2*illum|.
+  // For a half-illuminated moon, x-radius = 0 (straight line).
+  const rx = R * Math.abs(1 - 2 * illum);
+  // Decide which side is lit and arc direction.
+  // Waxing: lit on right (sun on the left of viewer perspective inverted —
+  // but visually we draw lit on the right for waxing, left for waning).
+  if (waxing) {
+    if (illum < 0.5) {
+      // Crescent: lit area is right half between right outer arc and inner ellipse curving right.
+      return `M 0 ${-R} A ${R} ${R} 0 0 1 0 ${R} A ${rx} ${R} 0 0 0 0 ${-R} Z`;
+    } else {
+      // Gibbous: lit is right outer arc plus inner ellipse curving LEFT.
+      return `M 0 ${-R} A ${R} ${R} 0 0 1 0 ${R} A ${rx} ${R} 0 0 1 0 ${-R} Z`;
+    }
+  } else {
+    if (illum < 0.5) {
+      return `M 0 ${-R} A ${R} ${R} 0 0 0 0 ${R} A ${rx} ${R} 0 0 1 0 ${-R} Z`;
+    } else {
+      return `M 0 ${-R} A ${R} ${R} 0 0 0 0 ${R} A ${rx} ${R} 0 0 0 0 ${-R} Z`;
+    }
+  }
+}
+
+function moonPositionTop(f) {
+  // f 0..1 -> angle around Earth; new moon (f=0) on the sun side (left, x=-)
+  // We place earth at (170,170) in 340x340 viewBox; orbit radius 120.
+  // At f=0 (new moon) moon between earth and sun → on the LEFT of earth → angle = 180°.
+  const angle = Math.PI + f * 2 * Math.PI;
+  return {
+    x: 170 + 120 * Math.cos(angle),
+    y: 170 + 120 * Math.sin(angle),
+  };
+}
+
+function update(d) {
+  const { illum, waxing, f } = illumAndWaxing(d);
+  const nm = nameFor(d);
+  phasePill.textContent = nm;
+  phaseName.textContent = nm;
+
+  // Right panel: phase visual
+  phasePath.setAttribute('d', phasePathFor(illum, waxing));
+
+  // Left panel: position the moon and rebuild its lit half (always toward sun on left).
+  const pos = moonPositionTop(f);
+  // The lit half always points toward the sun, which is at x≈0 (left).
+  // We draw the moon as: full dark sphere + an arc filling the half facing the sun.
+  // For a proper top-down view we'd also show the visible-from-Earth slice;
+  // for an explainer the kid-readable version is enough.
+  moonTop.innerHTML = `
+    <circle cx="${pos.x}" cy="${pos.y}" r="14" fill="#3a3a4d"/>
+    <path d="M ${pos.x} ${pos.y - 14} A 14 14 0 0 0 ${pos.x} ${pos.y + 14} Z"
+          fill="url(#moonLitTop)"/>
+  `;
+}
+
+// Build the 8-phase strip
+function buildStrip() {
+  for (const p of PHASES) {
+    const illum = p.illum;
+    const waxing = p.waxing;
+    const cell = document.createElement('button');
+    cell.style.cssText = 'background:none;border:none;cursor:pointer;color:var(--ink-2);font:13px ui-monospace,monospace;text-align:center;padding:8px;border-radius:14px;';
+    cell.innerHTML = `
+      <svg width="60" height="60" viewBox="-50 -50 100 100">
+        <circle r="48" fill="#222238"/>
+        <path d="${phasePathFor(illum, waxing, 48)}" fill="url(#moonLit)"/>
+      </svg>
+      <div style="margin-top:6px;font-size:11.5px;color:var(--ink-3);max-width:80px;">${p.name}</div>
+    `;
+    cell.addEventListener('click', () => { dayInput.value = p.day; update(p.day); });
+    cell.addEventListener('mouseover', () => cell.style.background = 'rgba(255,255,255,0.04)');
+    cell.addEventListener('mouseout', () => cell.style.background = 'none');
+    stripEl.appendChild(cell);
+  }
+  // The strip references url(#moonLit) which lives in the bigger SVG above; ensure
+  // it exists by inlining a hidden defs container with the gradient.
+  const defs = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  defs.style.cssText = 'width:0;height:0;position:absolute;';
+  defs.innerHTML = `<defs><radialGradient id="moonLit" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#fff"/>
+    <stop offset="80%" stop-color="#d6d2c0"/>
+    <stop offset="100%" stop-color="#9a9686"/></radialGradient></defs>`;
+  document.body.appendChild(defs);
+}
+
+dayInput.addEventListener('input', e => update(parseFloat(e.target.value)));
+buildStrip();
+update(parseFloat(dayInput.value));
+</script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wie laut ist…?</title>
+<style>
+  :root {
+    --bg-1: #0a0e1a;
+    --bg-2: #1a1f3d;
+    --neon-cyan: #00f0ff;
+    --neon-pink: #ff00aa;
+    --neon-yellow: #ffea00;
+    --neon-red: #ff2d4f;
+    --ink: #e8edf5;
+    --ink-2: #aab4c8;
+    --ink-3: #6a7388;
+    --hair: rgba(0,240,255,0.2);
+    --card: rgba(255,255,255,0.04);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(0,240,255,0.1), transparent 40%),
+      radial-gradient(ellipse at 80% 80%, rgba(255,0,170,0.1), transparent 40%),
+      var(--bg-1);
+    color: var(--ink); min-height: 100vh;
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, sans-serif;
+  }
+  main { max-width: 800px; margin: 0 auto; padding: 32px 20px 80px; }
+  .back { display: inline-block; color: var(--ink-3); text-decoration: none; font-size: 13px; margin-bottom: 20px; }
+  .back:hover { color: var(--ink); }
+  header { text-align: center; margin-bottom: 28px; }
+  .kicker { font: 11px/1 ui-monospace, monospace; letter-spacing: 2px; text-transform: uppercase; color: var(--neon-cyan); margin-bottom: 12px; text-shadow: 0 0 8px rgba(0,240,255,0.6); }
+  h1 { font: 600 48px/1 ui-monospace, monospace; margin: 0; letter-spacing: -2px; text-transform: uppercase; }
+  h1 em {
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-style: normal;
+  }
+  .lede { color: var(--ink-2); max-width: 600px; margin: 14px auto 0; font-size: 16px; }
+  section.card { background: var(--card); border: 1px solid var(--hair); border-radius: 18px; padding: 22px; margin-top: 20px; backdrop-filter: blur(6px); }
+  section h2 { font: 600 22px/1.2 ui-monospace, monospace; margin: 0 0 6px; letter-spacing: -0.3px; text-transform: uppercase; color: var(--neon-cyan); }
+  section p.sub { color: var(--ink-2); margin: 0 0 16px; font-size: 14.5px; }
+  .controls { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin: 18px 0 6px; }
+  .controls label { font: 12px ui-monospace, monospace; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-3); }
+  input[type="range"] { flex: 1; min-width: 220px; height: 28px; accent-color: var(--neon-cyan); }
+  .pill {
+    display: inline-block; padding: 6px 16px; border-radius: 4px;
+    background: rgba(0,240,255,0.15); color: var(--neon-cyan);
+    font: 600 16px ui-monospace, monospace;
+    border: 1px solid var(--neon-cyan);
+    box-shadow: 0 0 12px rgba(0,240,255,0.4);
+  }
+  .pill.warn { background: rgba(255,234,0,0.15); color: var(--neon-yellow); border-color: var(--neon-yellow); box-shadow: 0 0 12px rgba(255,234,0,0.4); }
+  .pill.danger { background: rgba(255,45,79,0.15); color: var(--neon-red); border-color: var(--neon-red); box-shadow: 0 0 12px rgba(255,45,79,0.4); }
+  .display {
+    text-align: center; padding: 20px;
+    background: rgba(0,0,0,0.4);
+    border: 2px solid var(--neon-cyan);
+    border-radius: 14px;
+    margin: 20px 0;
+    box-shadow: 0 0 20px rgba(0,240,255,0.2), inset 0 0 30px rgba(0,240,255,0.05);
+  }
+  .display.warn { border-color: var(--neon-yellow); box-shadow: 0 0 20px rgba(255,234,0,0.25), inset 0 0 30px rgba(255,234,0,0.05); }
+  .display.danger { border-color: var(--neon-red); box-shadow: 0 0 20px rgba(255,45,79,0.3), inset 0 0 30px rgba(255,45,79,0.08); animation: pulse 1s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { box-shadow: 0 0 20px rgba(255,45,79,0.3); } 50% { box-shadow: 0 0 40px rgba(255,45,79,0.6); } }
+  .display .db {
+    font: 600 88px/1 ui-monospace, monospace;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 20px currentColor;
+  }
+  .display.warn .db { color: var(--neon-yellow); }
+  .display.danger .db { color: var(--neon-red); }
+  .display .lbl { font: 14px ui-monospace, monospace; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-3); margin-top: 4px; }
+  .display .source { font: 600 22px Georgia, serif; margin-top: 12px; color: var(--ink); }
+  .play {
+    margin-top: 18px;
+    appearance: none; cursor: pointer;
+    background: var(--neon-pink); color: white;
+    border: none;
+    padding: 14px 26px; border-radius: 10px;
+    font: 600 16px ui-monospace, monospace; letter-spacing: 1.4px;
+    text-transform: uppercase;
+    box-shadow: 0 0 20px rgba(255,0,170,0.4);
+    transition: transform 0.1s;
+  }
+  .play:hover { transform: translateY(-1px); }
+  .play:active { transform: translateY(1px); }
+  .play.stop { background: var(--neon-red); box-shadow: 0 0 20px rgba(255,45,79,0.4); }
+  .scale { display: flex; flex-direction: column; gap: 6px; margin-top: 18px; }
+  .scale-row {
+    display: grid; grid-template-columns: 60px 1fr 90px;
+    align-items: center; gap: 12px;
+    padding: 10px 14px; border-radius: 8px;
+    background: rgba(255,255,255,0.04);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .scale-row:hover { background: rgba(0,240,255,0.1); }
+  .scale-row .num { font: 600 18px ui-monospace, monospace; color: var(--neon-cyan); text-align: right; }
+  .scale-row .name { color: var(--ink-2); font-size: 14.5px; }
+  .scale-row .badge {
+    font: 11px ui-monospace, monospace; letter-spacing: 1px; text-transform: uppercase;
+    text-align: center; padding: 3px 8px; border-radius: 4px;
+  }
+  .scale-row .badge.ok { background: rgba(0,240,255,0.15); color: var(--neon-cyan); }
+  .scale-row .badge.warn { background: rgba(255,234,0,0.15); color: var(--neon-yellow); }
+  .scale-row .badge.danger { background: rgba(255,45,79,0.15); color: var(--neon-red); }
+  details { margin-top: 8px; cursor: pointer; color: var(--ink-2); font-size: 14px; }
+  details summary { font-weight: 500; color: var(--ink); }
+  details p { margin: 8px 0 0; }
+  .takeaway { margin-top: 24px; padding: 18px 22px; background: rgba(0,240,255,0.06); border: 1px dashed var(--neon-cyan); border-radius: 14px; }
+  .takeaway h3 { margin: 0 0 8px; font: 600 16px ui-monospace, monospace; color: var(--neon-cyan); text-transform: uppercase; }
+  footer { margin-top: 40px; text-align: center; color: var(--ink-3); font-size: 12px; }
+  @media (max-width: 600px) { h1 { font-size: 36px; } .display .db { font-size: 64px; } }
+</style>
+</head>
+<body>
+<main>
+  <a href="../" class="back">← zur Familien-Werkstatt</a>
+  <header>
+    <div class="kicker">Physik · Schall & Lautstärke</div>
+    <h1>Wie <em>laut</em><br>ist das?</h1>
+    <p class="lede">
+      Schall ist eine Welle in der Luft. Lautstärke messen wir in <strong>Dezibel (dB)</strong>. Schieb den Regler durch die Welt — von einer schlafenden Bibliothek bis zum Düsenjet. Tipp auf <em>HÖREN</em> um die Lautstärke nachzuspielen (vorsichtig, fang leise an!).
+    </p>
+  </header>
+
+  <section class="card">
+    <h2>Lautstärke-Schieber</h2>
+
+    <div class="controls">
+      <label for="db">Dezibel</label>
+      <input type="range" id="db" min="20" max="140" value="60">
+    </div>
+
+    <div class="display" id="display">
+      <div class="db" id="dbVal">60</div>
+      <div class="lbl">Dezibel</div>
+      <div class="source" id="sourceLabel">normales Gespräch</div>
+    </div>
+
+    <div style="text-align:center;">
+      <button class="play" id="playBtn">▶ Hören</button>
+      <p style="font-size:13px; color: var(--ink-3); margin-top: 14px;">Lautstärke deines Geräts ist deine Endlautstärke. Wir spielen relativ in dein Gerät rein.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Skala zum Antippen</h2>
+    <p class="sub">Tipp auf einen Eintrag, der Schieber springt hin.</p>
+    <div class="scale" id="scale"></div>
+  </section>
+
+  <details>
+    <summary>Warum +10 dB nicht „doppelt so laut"?</summary>
+    <p>Die Dezibel-Skala ist <em>logarithmisch</em>. +10 dB bedeutet ungefähr „doppelt so laut empfunden" — aber zehnmal mehr Schalldruck. +20 dB = hundertmal mehr Druck. Deshalb sind 100 dB wirklich gefährlich: das ist hundertmillionenmal mehr Schalldruck als das leiseste, was wir hören.</p>
+  </details>
+  <details>
+    <summary>Ab wann sind Kopfhörer zu laut?</summary>
+    <p>Über 85 dB für längere Zeit kann das Gehör schädigen. Smartphone-Kopfhörer auf voller Lautstärke schaffen leicht 100-110 dB. Daumenregel: wenn jemand neben dir auf 1 m Entfernung deine Musik hört, ist sie zu laut.</p>
+  </details>
+
+  <div class="takeaway">
+    <h3>Zum Mitnehmen</h3>
+    <p style="margin:0;">Dezibel zählen logarithmisch — alle 10 dB ist es ungefähr doppelt so laut. Über 85 dB tut es dem Ohr weh, ab 120 dB richtet es bleibenden Schaden an. Kopfhörer auf 50 % sind eine gute Hausnummer.</p>
+  </div>
+
+  <footer>Familien-Werkstatt · gemacht mit den Kids</footer>
+</main>
+
+<script>
+const SOURCES = [
+  { db: 0,   name: 'absolute Stille',          tier: 'ok' },
+  { db: 20,  name: 'Atmen, Blätterrascheln',   tier: 'ok' },
+  { db: 30,  name: 'Flüstern',                 tier: 'ok' },
+  { db: 40,  name: 'Bibliothek, leiser Wald',  tier: 'ok' },
+  { db: 50,  name: 'Kühlschrank-Brummen',      tier: 'ok' },
+  { db: 60,  name: 'normales Gespräch',        tier: 'ok' },
+  { db: 70,  name: 'Staubsauger',              tier: 'ok' },
+  { db: 80,  name: 'lauter Verkehr',           tier: 'ok' },
+  { db: 85,  name: 'volles Restaurant',        tier: 'warn' },
+  { db: 90,  name: 'Rasenmäher',               tier: 'warn' },
+  { db: 100, name: 'Bohrhammer',               tier: 'warn' },
+  { db: 110, name: 'Konzert vorne',            tier: 'danger' },
+  { db: 120, name: 'Düsenjet beim Start',      tier: 'danger' },
+  { db: 130, name: 'Gewehrschuss',             tier: 'danger' },
+  { db: 140, name: 'Feuerwerk neben dir',      tier: 'danger' },
+];
+
+const dbInput = document.getElementById('db');
+const dbVal = document.getElementById('dbVal');
+const sourceLabel = document.getElementById('sourceLabel');
+const display = document.getElementById('display');
+const playBtn = document.getElementById('playBtn');
+const scaleEl = document.getElementById('scale');
+
+function tier(db) {
+  if (db >= 105) return 'danger';
+  if (db >= 80) return 'warn';
+  return 'ok';
+}
+
+function nearest(db) {
+  let best = SOURCES[0], bd = Infinity;
+  for (const s of SOURCES) {
+    const d = Math.abs(s.db - db);
+    if (d < bd) { bd = d; best = s; }
+  }
+  return best;
+}
+
+function update(db) {
+  dbVal.textContent = db;
+  const s = nearest(db);
+  sourceLabel.textContent = s.name;
+  display.classList.remove('warn', 'danger');
+  const t = tier(db);
+  if (t === 'warn') display.classList.add('warn');
+  if (t === 'danger') display.classList.add('danger');
+}
+
+dbInput.addEventListener('input', e => update(parseInt(e.target.value, 10)));
+
+// Build scale
+SOURCES.forEach(s => {
+  const row = document.createElement('div');
+  row.className = 'scale-row';
+  row.innerHTML = `
+    <div class="num">${s.db}</div>
+    <div class="name">${s.name}</div>
+    <div class="badge ${s.tier}">${s.tier === 'ok' ? 'sicher' : s.tier === 'warn' ? 'aufpassen' : 'gefährlich'}</div>
+  `;
+  row.addEventListener('click', () => {
+    dbInput.value = s.db;
+    update(s.db);
+  });
+  scaleEl.appendChild(row);
+});
+
+// ── Audio: synthesize a tone whose amplitude scales with the picked dB.
+//
+// Real dB SPL we can't deliver — that depends on the user's speakers.
+// Instead we map: 20 dB → near silent, 100 dB → loud. Cap at 0.7 of full
+// gain so we never blow out the speaker.
+let ctx, osc, gain;
+let playing = false;
+
+function startAudio(db) {
+  if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+  if (osc) { osc.stop(); osc.disconnect(); }
+  if (gain) gain.disconnect();
+  osc = ctx.createOscillator();
+  osc.type = 'sine';
+  osc.frequency.value = 440; // pleasant A
+  gain = ctx.createGain();
+  // Map 20..120 → 0..0.6 logarithmically (approximation)
+  const norm = Math.max(0, Math.min(1, (db - 20) / 100));
+  gain.gain.value = norm * norm * 0.6;
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start();
+  playing = true;
+  playBtn.textContent = '■ Stopp';
+  playBtn.classList.add('stop');
+}
+
+function stopAudio() {
+  if (osc) { osc.stop(); osc.disconnect(); osc = null; }
+  if (gain) { gain.disconnect(); gain = null; }
+  playing = false;
+  playBtn.textContent = '▶ Hören';
+  playBtn.classList.remove('stop');
+}
+
+playBtn.addEventListener('click', () => {
+  if (playing) stopAudio();
+  else startAudio(parseInt(dbInput.value, 10));
+});
+
+// when slider moves while playing, update gain
+dbInput.addEventListener('input', () => {
+  if (playing && gain) {
+    const db = parseInt(dbInput.value, 10);
+    const norm = Math.max(0, Math.min(1, (db - 20) / 100));
+    gain.gain.value = norm * norm * 0.6;
+  }
+});
+
+update(parseInt(dbInput.value, 10));
+</script>
+</body>
+</html>

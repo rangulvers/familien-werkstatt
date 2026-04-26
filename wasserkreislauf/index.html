@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Der Wasser-Kreislauf</title>
+<style>
+  :root {
+    --bg-1: #d8eef8;
+    --bg-2: #6cb4dc;
+    --water: #1864a3;
+    --water-light: #4a90c4;
+    --sky: #b6dff0;
+    --cloud: #ffffff;
+    --land: #6b9050;
+    --land-deep: #4d7a3c;
+    --sand: #e8d29a;
+    --sun: #f5c452;
+    --sun-glow: #ffae3b;
+    --ink: #0c2236;
+    --ink-2: #2c4a68;
+    --ink-3: #6a82a0;
+    --hair: rgba(12,34,54,0.15);
+    --card: rgba(255,255,255,0.92);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: linear-gradient(180deg, var(--bg-1), var(--bg-2));
+    color: var(--ink); min-height: 100vh;
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, sans-serif;
+  }
+  main { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }
+  .back { display: inline-block; color: var(--ink-2); text-decoration: none; font-size: 13px; margin-bottom: 20px; }
+  .back:hover { color: var(--ink); }
+  header { text-align: center; margin-bottom: 28px; }
+  .kicker { font: 11px/1 ui-monospace, monospace; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 12px; }
+  h1 { font: 600 42px/1.05 Georgia, serif; margin: 0; letter-spacing: -1px; }
+  h1 em { color: var(--water); font-style: italic; font-weight: 400; }
+  .lede { color: var(--ink-2); max-width: 640px; margin: 14px auto 0; font-size: 16px; }
+  section.card { background: var(--card); border: 1px solid var(--hair); border-radius: 18px; padding: 22px; margin-top: 20px; }
+  section h2 { font: 600 22px/1.2 Georgia, serif; margin: 0 0 6px; letter-spacing: -0.3px; }
+  section p.sub { color: var(--ink-2); margin: 0 0 16px; font-size: 14.5px; }
+  .controls { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; margin: 18px 0 6px; }
+  .controls label { font: 12px ui-monospace, monospace; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-3); }
+  input[type="range"] { width: 100%; accent-color: var(--water); height: 28px; }
+  .pill { display: inline-block; padding: 4px 12px; border-radius: 999px; background: rgba(24,100,163,0.15); color: var(--water); font: 13px ui-monospace, monospace; min-width: 80px; text-align: center; }
+  canvas { display: block; width: 100%; height: 460px; border-radius: 14px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 14px; font-size: 13.5px; color: var(--ink-2); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: var(--water); color: white; font: 600 12px ui-monospace, monospace; }
+  details { margin-top: 8px; cursor: pointer; color: var(--ink-2); font-size: 14px; }
+  details summary { font-weight: 500; color: var(--ink); }
+  details p { margin: 8px 0 0; }
+  .takeaway { margin-top: 24px; padding: 18px 22px; background: rgba(24,100,163,0.08); border: 1px dashed var(--water); border-radius: 14px; }
+  .takeaway h3 { margin: 0 0 8px; font: 600 16px Georgia, serif; color: var(--water); }
+  footer { margin-top: 40px; text-align: center; color: var(--ink-3); font-size: 12px; }
+  @media (max-width: 600px) { h1 { font-size: 32px; } canvas { height: 360px; } }
+</style>
+</head>
+<body>
+<main>
+  <a href="../" class="back">← zur Familien-Werkstatt</a>
+  <header>
+    <div class="kicker">Geographie · Hydrologie</div>
+    <h1>Der <em>Wasser-Kreislauf</em></h1>
+    <p class="lede">
+      Das Wasser auf der Erde geht nie verloren — es bewegt sich nur im Kreis. Sonne erwärmt das Meer, Wasser steigt als Dampf auf, sammelt sich zu Wolken, fällt als Regen, fließt durch Bäche und Flüsse zurück ins Meer. Schon Millionen Jahre dasselbe Wasser.
+    </p>
+  </header>
+
+  <section class="card">
+    <h2>Die Wasser-Maschine</h2>
+    <p class="sub">Sonne und Wind drehen das Tempo des Kreislaufs hoch oder runter. Mehr Sonne → mehr Verdunstung → mehr Wolken → mehr Regen.</p>
+
+    <div class="controls">
+      <label for="sun">☀ Sonne</label>
+      <input type="range" id="sun" min="0" max="100" value="60">
+      <span class="pill" id="sunPill">60 %</span>
+    </div>
+    <div class="controls">
+      <label for="wind">🍃 Wind</label>
+      <input type="range" id="wind" min="0" max="100" value="50">
+      <span class="pill" id="windPill">50 %</span>
+    </div>
+
+    <canvas id="scene" width="900" height="460"></canvas>
+
+    <div class="legend">
+      <span><i class="num">1</i> Verdunstung (Wasser → Dampf)</span>
+      <span><i class="num">2</i> Kondensation (Dampf → Wolke)</span>
+      <span><i class="num">3</i> Niederschlag (Regen)</span>
+      <span><i class="num">4</i> Abfluss (Fluss → Meer)</span>
+    </div>
+  </section>
+
+  <details>
+    <summary>Wo geht das Wasser hin, wenn es im Boden versickert?</summary>
+    <p>Es sammelt sich tief unten als <strong>Grundwasser</strong>. Daraus speisen sich Brunnen, manchmal kommt es auch wieder als Quelle aus dem Berg. Auch das fließt irgendwann in einen Fluss.</p>
+  </details>
+  <details>
+    <summary>Trinken wir das Wasser, das schon Dinosaurier getrunken haben?</summary>
+    <p>Ja. Das Wasser auf der Erde ist immer dasselbe — es war schon vor 100 Millionen Jahren da, in Wolken, Flüssen, Tieren. In jedem Schluck Wasser sind statistisch ein paar Moleküle, die mal in einem Brontosaurus waren.</p>
+  </details>
+
+  <div class="takeaway">
+    <h3>Zum Mitnehmen</h3>
+    <p style="margin:0;">Vier Schritte: Verdunstung, Kondensation, Niederschlag, Abfluss. Der Motor ist die Sonne. Ein Tropfen Wasser, der heute aus einer Wolke fällt, hat den Kreis schon Millionen Mal durchlaufen.</p>
+  </div>
+
+  <footer>Familien-Werkstatt · gemacht mit den Kids</footer>
+</main>
+
+<script>
+const canvas = document.getElementById('scene');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+const sunInput = document.getElementById('sun');
+const windInput = document.getElementById('wind');
+const sunPill = document.getElementById('sunPill');
+const windPill = document.getElementById('windPill');
+
+let sunPower = 0.6, windPower = 0.5;
+
+// Particle system: water droplets in different states.
+// stages: 'sea', 'rising', 'cloud', 'falling', 'river'
+const drops = [];
+for (let i = 0; i < 80; i++) {
+  drops.push({ x: Math.random() * W, y: 380 + Math.random() * 60, stage: 'sea', t: Math.random() });
+}
+
+function step() {
+  for (const d of drops) {
+    if (d.stage === 'sea') {
+      // Chance to start rising depends on sun
+      if (Math.random() < 0.003 + sunPower * 0.012) {
+        d.stage = 'rising';
+        d.t = 0;
+      }
+    } else if (d.stage === 'rising') {
+      d.y -= 0.5 + sunPower * 1.5;
+      d.x += (windPower - 0.3) * 0.8;
+      if (d.y < 130) {
+        d.stage = 'cloud';
+        // snap to a cloud x
+        d.t = Math.random();
+      }
+    } else if (d.stage === 'cloud') {
+      // drift across the sky with wind, then fall
+      d.x += 0.2 + windPower * 1.5;
+      d.t += 0.005 + sunPower * 0.005;
+      if (d.t > 0.7 && Math.random() < 0.02 + sunPower * 0.04) {
+        d.stage = 'falling';
+      }
+      if (d.x > W + 20) d.x = -20;
+    } else if (d.stage === 'falling') {
+      d.y += 2 + sunPower * 2;
+      d.x += (windPower - 0.3) * 0.6;
+      // Land or sea?
+      if (d.y > 360) {
+        d.stage = (d.x < W * 0.45) ? 'river' : 'sea';
+        d.y = d.x < W * 0.45 ? (320 + (d.x / W) * 20) : 380 + Math.random() * 60;
+      }
+    } else if (d.stage === 'river') {
+      // Flow downhill and to the right (toward the sea)
+      d.x += 0.6 + windPower * 0.4;
+      d.y += 0.05;
+      if (d.x > W * 0.5) {
+        d.stage = 'sea';
+        d.y = 380 + Math.random() * 60;
+      }
+    }
+    // Wrap edges
+    if (d.x < -20) d.x = W + 20;
+  }
+}
+
+function draw() {
+  // Sky
+  const skyGrad = ctx.createLinearGradient(0, 0, 0, 320);
+  skyGrad.addColorStop(0, '#b6dff0');
+  skyGrad.addColorStop(1, '#dff1fa');
+  ctx.fillStyle = skyGrad;
+  ctx.fillRect(0, 0, W, 320);
+
+  // Sun (intensity = sunPower)
+  const sunR = 38 + sunPower * 10;
+  const sunGlow = ctx.createRadialGradient(W * 0.85, 70, 0, W * 0.85, 70, sunR * 2);
+  sunGlow.addColorStop(0, `rgba(255,228,120,${0.4 + sunPower * 0.4})`);
+  sunGlow.addColorStop(1, 'rgba(255,174,59,0)');
+  ctx.fillStyle = sunGlow;
+  ctx.fillRect(W * 0.65, 0, W * 0.35, 200);
+  ctx.beginPath();
+  ctx.arc(W * 0.85, 70, sunR, 0, Math.PI * 2);
+  ctx.fillStyle = '#ffd66b';
+  ctx.fill();
+
+  // Land (hills on left)
+  ctx.fillStyle = '#6b9050';
+  ctx.beginPath();
+  ctx.moveTo(0, 360);
+  ctx.bezierCurveTo(80, 280, 200, 290, 280, 340);
+  ctx.bezierCurveTo(330, 360, 380, 360, 410, 360);
+  ctx.lineTo(410, H);
+  ctx.lineTo(0, H);
+  ctx.closePath();
+  ctx.fill();
+
+  // Mountain peaks
+  ctx.fillStyle = '#4d7a3c';
+  ctx.beginPath();
+  ctx.moveTo(120, 320);
+  ctx.lineTo(180, 250);
+  ctx.lineTo(220, 320);
+  ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.moveTo(165, 270);
+  ctx.lineTo(180, 250);
+  ctx.lineTo(195, 270);
+  ctx.fill();
+
+  // River channel
+  ctx.fillStyle = '#4a90c4';
+  ctx.beginPath();
+  ctx.moveTo(180, 270);
+  ctx.bezierCurveTo(200, 320, 260, 340, 410, 360);
+  ctx.lineTo(410, 380);
+  ctx.bezierCurveTo(260, 360, 200, 340, 180, 280);
+  ctx.fill();
+
+  // Sea (right side)
+  const seaGrad = ctx.createLinearGradient(0, 350, 0, H);
+  seaGrad.addColorStop(0, '#4a90c4');
+  seaGrad.addColorStop(1, '#0c4c80');
+  ctx.fillStyle = seaGrad;
+  ctx.fillRect(410, 350, W - 410, H - 350);
+
+  // Wave crests
+  ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+  ctx.lineWidth = 1.5;
+  for (let i = 0; i < 4; i++) {
+    ctx.beginPath();
+    const y = 360 + i * 22;
+    ctx.moveTo(410, y);
+    for (let x = 410; x < W; x += 30) {
+      ctx.lineTo(x + 15, y + Math.sin((x + i * 30) * 0.05) * 3);
+      ctx.lineTo(x + 30, y);
+    }
+    ctx.stroke();
+  }
+
+  // Clouds (collected dots → soft blobs)
+  // Render each drop
+  for (const d of drops) {
+    if (d.stage === 'cloud') {
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, 18, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,0.55)';
+      ctx.fill();
+    } else if (d.stage === 'rising') {
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, 3, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(180,220,240,0.8)';
+      ctx.fill();
+    } else if (d.stage === 'falling') {
+      ctx.beginPath();
+      ctx.fillStyle = '#1864a3';
+      ctx.fillRect(d.x, d.y, 1.5, 6);
+    }
+  }
+
+  // Stage labels
+  ctx.font = 'bold 14px ui-monospace';
+  ctx.fillStyle = '#0c2236';
+  // 1 — Verdunstung
+  drawNum(ctx, 600, 280, '1');
+  ctx.fillText('Verdunstung', 615, 285);
+  // 2 — Kondensation
+  drawNum(ctx, 350, 100, '2');
+  ctx.fillText('Wolken-Bildung', 365, 105);
+  // 3 — Regen
+  drawNum(ctx, 240, 200, '3');
+  ctx.fillText('Regen', 255, 205);
+  // 4 — Abfluss
+  drawNum(ctx, 280, 360, '4');
+  ctx.fillText('Fluss → Meer', 295, 365);
+}
+
+function drawNum(ctx, x, y, n) {
+  ctx.beginPath();
+  ctx.arc(x, y, 11, 0, Math.PI * 2);
+  ctx.fillStyle = '#1864a3';
+  ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 12px ui-monospace';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(n, x, y);
+  ctx.textAlign = 'start';
+  ctx.textBaseline = 'alphabetic';
+}
+
+function loop() {
+  step();
+  draw();
+  requestAnimationFrame(loop);
+}
+
+function updateControls() {
+  sunPower = parseFloat(sunInput.value) / 100;
+  windPower = parseFloat(windInput.value) / 100;
+  sunPill.textContent = `${Math.round(sunPower * 100)} %`;
+  windPill.textContent = `${Math.round(windPower * 100)} %`;
+}
+
+sunInput.addEventListener('input', updateControls);
+windInput.addEventListener('input', updateControls);
+updateControls();
+loop();
+</script>
+</body>
+</html>

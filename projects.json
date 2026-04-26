@@ -1,6 +1,47 @@
 {
   "projects": [
     {
+      "title": "Warum sind Bienenwaben Sechsecke?",
+      "summary": "Pack denselben Boden mit Kreisen, Quadraten oder Sechsecken — und sieh sofort wie viel Platz verschwendet wird und wie viel Wachs die Biene baut. Sechsecke gewinnen.",
+      "tags": [
+        "mathe",
+        "geometrie",
+        "bienen"
+      ],
+      "ages": [
+        "8-12"
+      ],
+      "subjects": [
+        "mathe",
+        "biologie"
+      ],
+      "language": "de",
+      "created_at": "2026-04-26",
+      "slug": "bienenwaben",
+      "url": "./bienenwaben/"
+    },
+    {
+      "title": "Warum schwimmt Eis?",
+      "summary": "Wassermoleküle ordnen sich beim Gefrieren in ein offenes Sechseck-Gitter — größer als flüssig, deshalb leichter. Mit Temperatur-Schieber, Live-Dichte und animierten Molekülen.",
+      "tags": [
+        "chemie",
+        "physik",
+        "moleküle",
+        "interaktiv"
+      ],
+      "ages": [
+        "8-12"
+      ],
+      "subjects": [
+        "chemie",
+        "physik"
+      ],
+      "language": "de",
+      "created_at": "2026-04-26",
+      "slug": "eis-schwimmt",
+      "url": "./eis-schwimmt/"
+    },
+    {
       "title": "Was ist die Ekliptik?",
       "summary": "Warum gibt es Sommer und Winter? Drei interaktive Animationen — Erdbahn, Achsenneigung und der Tierkreis — mit einem Schieber für jeden Tag im Jahr.",
       "tags": [
@@ -20,8 +61,172 @@
       "created_at": "2026-04-26",
       "slug": "ekliptik",
       "url": "./ekliptik/"
+    },
+    {
+      "title": "Warum ist der Himmel blau?",
+      "summary": "Sonnenlicht trifft auf Luftteilchen — blaues Licht streut viel stärker als rotes. Mit einem Sonnenstand-Schieber, der den Himmel von Mittagsblau bis zum roten Sonnenuntergang dreht.",
+      "tags": [
+        "physik",
+        "licht",
+        "interaktiv"
+      ],
+      "ages": [
+        "6-8",
+        "9-12"
+      ],
+      "subjects": [
+        "physik"
+      ],
+      "language": "de",
+      "created_at": "2026-04-26",
+      "slug": "himmel-blau",
+      "url": "./himmel-blau/"
+    },
+    {
+      "title": "Die Magnet-Spielwiese",
+      "summary": "Ziehe einen Magneten über das Brett — Eisenspäne folgen den unsichtbaren Feldlinien live mit. Mit zweitem Magnet zum Anziehen und Abstoßen.",
+      "tags": [
+        "physik",
+        "magnetismus",
+        "interaktiv"
+      ],
+      "ages": [
+        "6-8",
+        "9-12"
+      ],
+      "subjects": [
+        "physik"
+      ],
+      "language": "de",
+      "created_at": "2026-04-26",
+      "slug": "magnet",
+      "url": "./magnet/"
+    },
+    {
+      "title": "Warum ändert der Mond seine Form?",
+      "summary": "Mondphasen erklärt: top-down auf Erde, Sonne und Mond schauen, gleichzeitig sehen wie er vom Boden aus aussieht. Mit Datums-Schieber für jede Nacht im Monat.",
+      "tags": [
+        "astronomie",
+        "mond",
+        "interaktiv"
+      ],
+      "ages": [
+        "6-8",
+        "9-12"
+      ],
+      "subjects": [
+        "astronomie"
+      ],
+      "language": "de",
+      "created_at": "2026-04-26",
+      "slug": "mondphasen",
+      "url": "./mondphasen/"
+    },
+    {
+      "title": "Die Regenbogen-Maschine",
+      "summary": "Ein Lichtstrahl trifft auf ein Prisma — und kommt als ganzer Regenbogen heraus. Dreh am Eintrittswinkel und schau zu, wie sich die Farben aufspalten.",
+      "tags": [
+        "physik",
+        "licht",
+        "regenbogen",
+        "interaktiv"
+      ],
+      "ages": [
+        "6-8",
+        "9-12"
+      ],
+      "subjects": [
+        "physik"
+      ],
+      "language": "de",
+      "created_at": "2026-04-26",
+      "slug": "regenbogen",
+      "url": "./regenbogen/"
+    },
+    {
+      "title": "Vom Samen zum Baum",
+      "summary": "Pflege einen winzigen Samen — Wasser, Sonne, Geduld. Jede Phase wird sichtbar, und wenn du etwas vergisst, sieht der Keim das auch. Für die Kleinsten.",
+      "tags": [
+        "biologie",
+        "pflanzen",
+        "spiel"
+      ],
+      "ages": [
+        "3-5",
+        "6-8"
+      ],
+      "subjects": [
+        "biologie"
+      ],
+      "language": "de",
+      "created_at": "2026-04-26",
+      "slug": "samen-zum-baum",
+      "url": "./samen-zum-baum/"
+    },
+    {
+      "title": "Wie wird aus einer Raupe ein Schmetterling?",
+      "summary": "Vier Lebens-Stadien zum Durchklicken: Ei, Raupe, Puppe, Falter. Mit Animationen und kindgerechten Erklärungen je Phase.",
+      "tags": [
+        "biologie",
+        "tiere",
+        "metamorphose"
+      ],
+      "ages": [
+        "3-5",
+        "6-8"
+      ],
+      "subjects": [
+        "biologie"
+      ],
+      "language": "de",
+      "created_at": "2026-04-26",
+      "slug": "schmetterling",
+      "url": "./schmetterling/"
+    },
+    {
+      "title": "Der Wasser-Kreislauf",
+      "summary": "Vom Meer in die Wolke, als Regen zurück, durch den Fluss ins Meer — und von vorn. Mit Sonnen- und Wind-Schieber, der die Geschwindigkeit verändert.",
+      "tags": [
+        "geographie",
+        "wetter",
+        "wasser",
+        "interaktiv"
+      ],
+      "ages": [
+        "6-8",
+        "9-12"
+      ],
+      "subjects": [
+        "geographie",
+        "biologie"
+      ],
+      "language": "de",
+      "created_at": "2026-04-26",
+      "slug": "wasserkreislauf",
+      "url": "./wasserkreislauf/"
+    },
+    {
+      "title": "Wie laut ist…?",
+      "summary": "Dezibel-Skala zum Anhören. Schieber von Flüstern bis Düsenjet, mit echten Tönen. Wo wird's gefährlich, wann braucht man Kopfhörer?",
+      "tags": [
+        "physik",
+        "schall",
+        "audio",
+        "interaktiv"
+      ],
+      "ages": [
+        "6-8",
+        "9-12"
+      ],
+      "subjects": [
+        "physik"
+      ],
+      "language": "de",
+      "created_at": "2026-04-26",
+      "slug": "wie-laut",
+      "url": "./wie-laut/"
     }
   ],
-  "generated_at": "2026-04-26T18:50:55.074737Z",
-  "count": 1
+  "generated_at": "2026-04-26T19:11:16.447084Z",
+  "count": 11
 }
