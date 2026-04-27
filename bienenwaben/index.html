@@ -13,137 +13,241 @@
     --ink: #2a1f0c;
     --ink-2: #5a431c;
     --ink-3: #8a7042;
-    --paper: #fffaed;
-    --bee-yellow: #f7c728;
-    --bee-stripe: #2a1f0c;
     --hair: rgba(42,31,12,0.15);
     --card: rgba(255,250,237,0.92);
-    --green: #6da846;
-    --red: #d4441c;
+    --green: #5a9e30;
+    --red: #c43010;
   }
   * { box-sizing: border-box; }
   html, body {
     margin: 0; padding: 0;
-    background:
-      radial-gradient(ellipse at top, var(--bg-1), var(--bg-2));
+    background: radial-gradient(ellipse at top, var(--bg-1), var(--bg-2));
     color: var(--ink); min-height: 100vh;
     font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, sans-serif;
   }
-  /* Honey-comb decoration */
   body::before {
-    content:""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-    background-image:
+    content:""; position: fixed; inset: 0; pointer-events: none;
+    background:
       radial-gradient(circle at 10% 90%, rgba(240,168,48,0.15), transparent 35%),
       radial-gradient(circle at 90% 10%, rgba(196,120,17,0.1), transparent 30%);
   }
   main { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; position: relative; z-index: 1; }
   .back { display: inline-block; color: var(--ink-2); text-decoration: none; font-size: 13px; margin-bottom: 20px; }
   .back:hover { color: var(--ink); }
+
+  /* ── Header ── */
   header { text-align: center; margin-bottom: 28px; }
   .kicker { font: 11px/1 ui-monospace, monospace; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 12px; }
   h1 { font: 600 42px/1.05 Georgia, serif; margin: 0; letter-spacing: -1px; }
   h1 em { color: var(--honey-deep); font-style: italic; font-weight: 400; }
   .lede { color: var(--ink-2); max-width: 640px; margin: 14px auto 0; font-size: 16px; }
-  section.card { background: var(--card); border: 1px solid var(--hair); border-radius: 18px; padding: 22px; margin-top: 20px; }
-  section h2 { font: 600 22px/1.2 Georgia, serif; margin: 0 0 6px; letter-spacing: -0.3px; }
-  section p.sub { color: var(--ink-2); margin: 0 0 16px; font-size: 14.5px; }
-  .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 18px 0 16px; justify-content: center; }
-  .shape-btn {
+
+  /* ── Arena ── */
+  .arena {
+    background: var(--card); border: 1px solid var(--hair);
+    border-radius: 18px; padding: 24px; margin-top: 20px;
+  }
+  .arena-header {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 20px; flex-wrap: wrap; gap: 8px;
+  }
+  .arena-header h2 { font: 600 22px/1.2 Georgia, serif; margin: 0; }
+  .arena-sub { color: var(--ink-3); font: 12px ui-monospace, monospace; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* Candidate cards */
+  .candidates { display: flex; gap: 12px; margin-bottom: 22px; justify-content: center; flex-wrap: wrap; }
+  .cand {
     appearance: none; cursor: pointer;
-    padding: 14px 22px; border-radius: 14px;
-    font: 600 16px Georgia, serif;
-    background: white; color: var(--ink-2);
-    border: 2px solid var(--hair);
-    transition: all 0.15s;
+    border: 2px solid var(--hair); border-radius: 16px;
+    background: white; padding: 14px 20px;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    transition: all 0.15s; flex: 1; min-width: 110px; max-width: 160px;
   }
-  .shape-btn:hover { border-color: var(--honey); }
-  .shape-btn.active {
-    background: var(--honey); color: white;
+  .cand:hover { border-color: var(--honey); background: rgba(255,250,237,0.9); }
+  .cand.active {
     border-color: var(--honey-deep);
-    box-shadow: 0 4px 0 var(--honey-deep);
+    background: linear-gradient(135deg, #fffaed, #fff0c0);
+    box-shadow: 0 4px 0 var(--honey-deep), 0 0 0 3px rgba(240,168,48,0.2);
   }
-  canvas { display: block; width: 100%; height: 360px; margin: 0 auto; border-radius: 14px; background: #fff; border: 1px solid var(--hair); }
-  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
-  .stat { background: white; border: 1px solid var(--hair); border-radius: 12px; padding: 12px 14px; text-align: center; }
-  .stat .lbl { font: 11px ui-monospace, monospace; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 6px; }
-  .stat .val { font: 600 24px Georgia, serif; color: var(--ink); }
-  .stat.good .val { color: var(--green); }
-  .stat.bad .val { color: var(--red); }
-  .takeaway { margin-top: 24px; padding: 18px 22px; background: rgba(240,168,48,0.15); border: 1px dashed var(--honey-deep); border-radius: 14px; }
+  .cand-icon { font-size: 30px; line-height: 1; }
+  .cand-name { font: 700 15px Georgia, serif; color: var(--ink); }
+  .cand-claim { font: 11px ui-monospace, monospace; color: var(--ink-3); text-align: center; }
+  .cand.active .cand-name { color: var(--honey-deep); }
+
+  /* VS dividers */
+  .vs {
+    display: flex; align-items: center; color: var(--ink-3);
+    font: 700 11px ui-monospace, monospace; letter-spacing: 1px;
+    flex-shrink: 0; padding-top: 10px;
+  }
+
+  /* Canvas */
+  canvas {
+    display: block; width: 100%; height: 340px; border-radius: 14px;
+    background: #fef9eb; border: 1px solid var(--hair);
+  }
+
+  /* ── Scoreboard ── */
+  .scoreboard { margin-top: 20px; border-radius: 14px; overflow: hidden; border: 1px solid var(--hair); }
+  .score-head {
+    display: grid; grid-template-columns: 1fr 80px 80px 80px;
+    padding: 8px 14px; background: rgba(240,168,48,0.18);
+    font: 700 10px ui-monospace, monospace; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--ink-3); gap: 8px;
+  }
+  .score-head span:not(:first-child) { text-align: center; }
+  .score-row {
+    display: grid; grid-template-columns: 1fr 80px 80px 80px;
+    padding: 12px 14px; border-top: 1px solid var(--hair);
+    align-items: center; gap: 8px; transition: background 0.2s;
+    background: white;
+  }
+  .score-row.current { background: rgba(240,168,48,0.1); }
+  .score-shape { font: 600 15px Georgia, serif; color: var(--ink); }
+  .score-cell { text-align: center; }
+  .score-val { font: 600 15px ui-monospace, monospace; }
+  .score-val.good { color: var(--green); }
+  .score-val.bad { color: var(--red); }
+  .score-val.mid { color: var(--ink-3); }
+  .verdict { text-align: center; font-size: 18px; }
+
+  /* Winner banner */
+  .winner-banner {
+    display: none; margin-top: 16px;
+    padding: 14px 20px; border-radius: 14px;
+    background: linear-gradient(135deg, rgba(240,168,48,0.2), rgba(196,120,17,0.1));
+    border: 1px solid rgba(240,168,48,0.5);
+    text-align: center;
+  }
+  .winner-banner.show { display: block; }
+  .winner-banner p { margin: 4px 0 0; color: var(--ink-2); font-size: 14.5px; }
+  .winner-trophy { font-size: 32px; }
+  .winner-title { font: 700 18px Georgia, serif; color: var(--honey-deep); }
+
+  /* ── Q&A ── */
+  .qa-section { margin-top: 32px; }
+  .section-label {
+    font: 700 10px ui-monospace, monospace; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--ink-3); margin-bottom: 12px; display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::after { content: ""; flex: 1; height: 1px; background: var(--hair); }
+  details {
+    background: var(--card); border: 1px solid var(--hair);
+    border-radius: 12px; padding: 14px 18px; margin-bottom: 8px;
+  }
+  details summary {
+    font-weight: 600; color: var(--ink); cursor: pointer; font-size: 15px;
+    list-style: none; display: flex; align-items: center; gap: 10px;
+  }
+  details summary::before { content: "▸"; color: var(--ink-3); font-size: 12px; }
+  details[open] summary::before { content: "▾"; color: var(--honey-deep); }
+  details[open] summary { color: var(--honey-deep); }
+  details p { margin: 10px 0 0; color: var(--ink-2); font-size: 14.5px; padding-left: 20px; }
+
+  /* ── Takeaway ── */
+  .takeaway {
+    margin-top: 16px; padding: 18px 22px;
+    background: rgba(240,168,48,0.12); border: 1px dashed var(--honey-deep); border-radius: 14px;
+  }
   .takeaway h3 { margin: 0 0 8px; font: 600 16px Georgia, serif; color: var(--honey-deep); }
-  details { margin-top: 8px; cursor: pointer; color: var(--ink-2); font-size: 14px; }
-  details summary { font-weight: 500; color: var(--ink); }
-  details p { margin: 8px 0 0; }
+  .takeaway p { margin: 0; color: var(--ink-2); font-size: 14.5px; }
+
   footer { margin-top: 40px; text-align: center; color: var(--ink-3); font-size: 12px; }
-  @media (max-width: 600px) { h1 { font-size: 32px; } .stats { grid-template-columns: 1fr; } }
+  @media (max-width: 600px) {
+    h1 { font-size: 32px; }
+    .score-head, .score-row { grid-template-columns: 1fr 60px 60px 40px; font-size: 12px; padding: 10px; }
+  }
 </style>
 </head>
 <body>
 <main>
   <a href="../" class="back">← zur Familien-Werkstatt</a>
+
   <header>
-    <div class="kicker">Mathe · Geometrie der Natur</div>
+    <div class="kicker">Mathe · Bienen-Wettbewerb</div>
     <h1>Warum sind Bienenwaben <em>Sechsecke?</em></h1>
     <p class="lede">
-      Bienen müssen Wachs sparen — das machen sie selber, aus dem Honig, den sie sammeln. Was ist die schlauste Form, mit dem wenigsten Wachs den meisten Honig zu lagern? Probier's selber aus.
+      Bienen müssen Wachs sparen — das machen sie selber, aus dem Honig, den sie sammeln. Drei Formen treten gegeneinander an: Wer füllt am meisten Platz? Wer braucht am wenigsten Wachs?
     </p>
   </header>
 
-  <section class="card">
-    <h2>Pack das Brett</h2>
-    <p class="sub">Wähle eine Form und schau zu, wie viel Boden du füllen kannst und wie viel Wachs du dabei brauchst (= die Länge aller Ränder).</p>
-
-    <div class="controls">
-      <button class="shape-btn" data-shape="circle">⚪ Kreise</button>
-      <button class="shape-btn" data-shape="square">⬜ Quadrate</button>
-      <button class="shape-btn active" data-shape="hex">⬣ Sechsecke</button>
+  <div class="arena">
+    <div class="arena-header">
+      <h2>Die drei Kandidaten</h2>
+      <span class="arena-sub">Wähle eine Form</span>
     </div>
 
-    <canvas id="board" width="700" height="380"></canvas>
+    <div class="candidates">
+      <button class="cand" data-shape="circle">
+        <span class="cand-icon">⚪</span>
+        <span class="cand-name">Kreis</span>
+        <span class="cand-claim">lässt Lücken</span>
+      </button>
+      <span class="vs">VS</span>
+      <button class="cand" data-shape="square">
+        <span class="cand-icon">⬜</span>
+        <span class="cand-name">Quadrat</span>
+        <span class="cand-claim">braucht viel Wachs</span>
+      </button>
+      <span class="vs">VS</span>
+      <button class="cand active" data-shape="hex">
+        <span class="cand-icon">⬣</span>
+        <span class="cand-name">Sechseck</span>
+        <span class="cand-claim">die Bienen-Lösung</span>
+      </button>
+    </div>
 
-    <div class="stats">
-      <div class="stat" id="statFill">
-        <div class="lbl">Boden gefüllt</div>
-        <div class="val">—</div>
+    <canvas id="board" width="700" height="340"></canvas>
+
+    <div class="scoreboard">
+      <div class="score-head">
+        <span>Form</span>
+        <span>Fläche</span>
+        <span>Wachs</span>
+        <span></span>
       </div>
-      <div class="stat" id="statWaste">
-        <div class="lbl">Verschwendete Fläche</div>
-        <div class="val">—</div>
+      <div class="score-row" id="rowCircle">
+        <span class="score-shape">⚪ Kreis</span>
+        <div class="score-cell"><span class="score-val bad">~78%</span></div>
+        <div class="score-cell"><span class="score-val mid">mittel</span></div>
+        <div class="verdict">😕</div>
       </div>
-      <div class="stat" id="statWax">
-        <div class="lbl">Wachs (Rand-Länge)</div>
-        <div class="val">—</div>
+      <div class="score-row" id="rowSquare">
+        <span class="score-shape">⬜ Quadrat</span>
+        <div class="score-cell"><span class="score-val good">100%</span></div>
+        <div class="score-cell"><span class="score-val bad">viel</span></div>
+        <div class="verdict">😐</div>
+      </div>
+      <div class="score-row current" id="rowHex">
+        <span class="score-shape">⬣ Sechseck</span>
+        <div class="score-cell"><span class="score-val good">100%</span></div>
+        <div class="score-cell"><span class="score-val good">wenig</span></div>
+        <div class="verdict">🏆</div>
       </div>
     </div>
-  </section>
 
-  <section class="card">
-    <h2>Das Ergebnis</h2>
-    <p class="sub">Schiebe einmal alle drei Formen durch und schau auf die Zahlen.</p>
-    <table style="width:100%; border-collapse:collapse; font-size: 14.5px;">
-      <thead style="background: rgba(240,168,48,0.2);">
-        <tr><th style="text-align:left; padding: 10px;">Form</th><th>Boden gefüllt</th><th>Wachs nötig</th><th>Verdikt</th></tr>
-      </thead>
-      <tbody>
-        <tr><td style="padding: 10px;">⚪ Kreis</td><td style="text-align:center;">~78%</td><td style="text-align:center;">mittel</td><td style="text-align:center;">😕 verschwendet Platz</td></tr>
-        <tr style="background: rgba(0,0,0,0.03);"><td style="padding: 10px;">⬜ Quadrat</td><td style="text-align:center;">100%</td><td style="text-align:center;">am meisten</td><td style="text-align:center;">😐 Platz ja, Wachs viel</td></tr>
-        <tr><td style="padding: 10px;"><strong>⬣ Sechseck</strong></td><td style="text-align:center;"><strong>100%</strong></td><td style="text-align:center;"><strong>am wenigsten</strong></td><td style="text-align:center;"><strong>🐝 perfekt</strong></td></tr>
-      </tbody>
-    </table>
-  </section>
+    <div class="winner-banner show" id="winnerBanner">
+      <div class="winner-trophy">🏆</div>
+      <div class="winner-title">Sechseck gewinnt!</div>
+      <p>100% Fläche genutzt, am wenigsten Wachs verbraucht — das ist mathematisch beweisbar optimal.</p>
+    </div>
+  </div>
 
-  <details>
-    <summary>Stimmt das wirklich, oder ist das nur ungefähr?</summary>
-    <p>Mathematiker:innen haben das schon vor 2000 Jahren vermutet — bewiesen wurde es aber erst 1999 vom Mathematiker Thomas Hales: das Sechseck ist die Form, die einen Boden komplett füllt und dabei am wenigsten Rand braucht. Heißt das <strong>Honeycomb-Theorem</strong>.</p>
-  </details>
-  <details>
-    <summary>Wussten die Bienen das?</summary>
-    <p>Sie wissen es nicht. Sie bauen erst runde Wachs-Töpfchen, drücken sie dann mit den Beinen seitlich, und durch die Hitze von vielen Bienen gleichzeitig „schmelzen" die runden Töpfe ineinander zu Sechsecken — ganz von selbst die effizienteste Form.</p>
-  </details>
+  <div class="qa-section">
+    <div class="section-label">Bonusfragen</div>
+    <details>
+      <summary>Stimmt das wirklich, oder ist das nur ungefähr?</summary>
+      <p>Mathematiker:innen haben das schon vor 2000 Jahren vermutet — bewiesen wurde es aber erst 1999 vom Mathematiker Thomas Hales: das Sechseck ist die Form, die einen Boden komplett füllt und dabei am wenigsten Rand braucht. Das heißt <strong>Honeycomb-Theorem</strong>.</p>
+    </details>
+    <details>
+      <summary>Wussten die Bienen das?</summary>
+      <p>Sie wissen es nicht. Sie bauen erst runde Wachs-Töpfchen, drücken sie dann mit den Beinen seitlich, und durch die Hitze von vielen Bienen gleichzeitig „schmelzen" die runden Töpfe ineinander zu Sechsecken — ganz von selbst die effizienteste Form.</p>
+    </details>
+  </div>
 
   <div class="takeaway">
     <h3>Zum Mitnehmen</h3>
-    <p style="margin:0;">Drei Formen können einen Boden komplett füllen ohne Lücken: Dreiecke, Quadrate und Sechsecke. Von diesen drei brauchen Sechsecke pro Fläche das wenigste „Geländer" — also am wenigsten Wachs. Bienen haben über Millionen Jahre die Mathe-Lösung gefunden, ohne sie zu kennen.</p>
+    <p>Drei Formen können einen Boden komplett füllen ohne Lücken: Dreiecke, Quadrate und Sechsecke. Von diesen drei brauchen Sechsecke pro Fläche das wenigste „Geländer" — also am wenigsten Wachs. Bienen haben über Millionen Jahre die Mathe-Lösung gefunden, ohne sie zu kennen.</p>
   </div>
 
   <footer>Familien-Werkstatt · gemacht mit den Kids</footer>
@@ -153,114 +257,61 @@
 const canvas = document.getElementById('board');
 const ctx = canvas.getContext('2d');
 const W = canvas.width, H = canvas.height;
-const buttons = document.querySelectorAll('.shape-btn');
-const fillEl = document.getElementById('statFill');
-const wasteEl = document.getElementById('statWaste');
-const waxEl = document.getElementById('statWax');
+const buttons = document.querySelectorAll('.cand');
+const winnerBanner = document.getElementById('winnerBanner');
+const rows = { circle: 'rowCircle', square: 'rowSquare', hex: 'rowHex' };
 
 let shape = 'hex';
 
 function drawBoard() {
   ctx.clearRect(0, 0, W, H);
-  // Wood-toned background
   ctx.fillStyle = '#fef9eb';
   ctx.fillRect(0, 0, W, H);
-
-  // Frame
   ctx.strokeStyle = '#8a7042';
   ctx.lineWidth = 4;
   ctx.strokeRect(2, 2, W - 4, H - 4);
 
-  let totalFilled = 0, totalWaste = 0, totalEdges = 0;
-  const boardArea = W * H;
-
   if (shape === 'circle') {
-    const r = 28;
-    const dx = r * 2;
-    const dy = r * 2;
-    for (let y = r + 4; y < H - r; y += dy) {
+    const r = 28, dx = r * 2, dy = r * 2;
+    for (let y = r + 4; y < H - r; y += dy)
       for (let x = r + 4; x < W - r; x += dx) {
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fillStyle = '#f0a830';
-        ctx.fill();
-        ctx.strokeStyle = '#c47811';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-        totalFilled += Math.PI * r * r;
-        totalEdges += 2 * Math.PI * r;
+        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fillStyle = '#f0a830'; ctx.fill();
+        ctx.strokeStyle = '#c47811'; ctx.lineWidth = 2; ctx.stroke();
       }
-    }
   } else if (shape === 'square') {
     const s = 56;
-    for (let y = 4; y < H - s; y += s) {
+    for (let y = 4; y < H - s; y += s)
       for (let x = 4; x < W - s; x += s) {
-        ctx.fillStyle = '#f0a830';
-        ctx.fillRect(x, y, s, s);
-        ctx.strokeStyle = '#c47811';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(x, y, s, s);
-        totalFilled += s * s;
-        // Inner walls shared, but for this kid-level metric we count perimeter of each
-        totalEdges += 4 * s;
+        ctx.fillStyle = '#f0a830'; ctx.fillRect(x, y, s, s);
+        ctx.strokeStyle = '#c47811'; ctx.lineWidth = 2; ctx.strokeRect(x, y, s, s);
       }
-    }
-    // de-duplicate shared walls roughly: each interior wall shared by 2 squares
-    totalEdges *= 0.55;
-  } else if (shape === 'hex') {
-    const r = 32; // hex radius (center to vertex)
-    const w = r * Math.sqrt(3); // hex flat-to-flat
-    const dx = w;
-    const dy = r * 1.5;
+  } else {
+    const r = 30, w = r * Math.sqrt(3), dy = r * 1.5;
     for (let row = 0, y = r + 4; y < H - r; y += dy, row++) {
       const off = row % 2 ? w / 2 : 0;
-      for (let x = r + off; x < W - w / 2; x += dx) {
-        drawHex(x, y, r);
-        // Hex area = 3 √3 / 2 × r²
-        totalFilled += (3 * Math.sqrt(3) / 2) * r * r;
-        totalEdges += 6 * r;
-      }
+      for (let x = r + off; x < W - w / 2; x += w) drawHex(x, y, r);
     }
-    // shared walls in hex packing
-    totalEdges *= 0.6;
   }
-
-  totalWaste = boardArea - totalFilled;
-
-  // Stats
-  const pct = Math.min(100, (totalFilled / boardArea * 100));
-  fillEl.querySelector('.val').textContent = `${pct.toFixed(0)}%`;
-  fillEl.classList.toggle('good', pct >= 95);
-  fillEl.classList.toggle('bad', pct < 80);
-
-  const wastePct = Math.max(0, 100 - pct);
-  wasteEl.querySelector('.val').textContent = `${wastePct.toFixed(0)}%`;
-  wasteEl.classList.toggle('good', wastePct < 5);
-  wasteEl.classList.toggle('bad', wastePct > 15);
-
-  // Wax: relative comparison (m of perimeter to fill the same board area)
-  // Easier: show as a relative bar
-  const waxLabel = shape === 'square' ? 'viel' : shape === 'circle' ? 'mittel' : 'wenig';
-  waxEl.querySelector('.val').textContent = waxLabel;
-  waxEl.classList.toggle('good', shape === 'hex');
-  waxEl.classList.toggle('bad', shape === 'square');
 }
 
 function drawHex(cx, cy, r) {
   ctx.beginPath();
   for (let i = 0; i < 6; i++) {
     const a = Math.PI / 3 * i + Math.PI / 6;
-    const x = cx + r * Math.cos(a);
-    const y = cy + r * Math.sin(a);
-    if (i === 0) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
+    const x = cx + r * Math.cos(a), y = cy + r * Math.sin(a);
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
   }
   ctx.closePath();
-  ctx.fillStyle = '#f0a830';
-  ctx.fill();
-  ctx.strokeStyle = '#c47811';
-  ctx.lineWidth = 2;
-  ctx.stroke();
+  ctx.fillStyle = '#f0a830'; ctx.fill();
+  ctx.strokeStyle = '#c47811'; ctx.lineWidth = 2; ctx.stroke();
+}
+
+function updateScoreboard() {
+  document.querySelectorAll('.score-row').forEach(r => r.classList.remove('current'));
+  const activeRow = document.getElementById(rows[shape]);
+  if (activeRow) activeRow.classList.add('current');
+  winnerBanner.classList.toggle('show', shape === 'hex');
 }
 
 buttons.forEach(b => b.addEventListener('click', () => {
@@ -268,9 +319,11 @@ buttons.forEach(b => b.addEventListener('click', () => {
   b.classList.add('active');
   shape = b.dataset.shape;
   drawBoard();
+  updateScoreboard();
 }));
 
 drawBoard();
+updateScoreboard();
 </script>
 </body>
 </html>

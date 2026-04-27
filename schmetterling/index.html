@@ -8,7 +8,6 @@
   :root {
     --bg-1: #fef0f8;
     --bg-2: #f7d7e8;
-    --paper: #fffbf2;
     --ink: #4a2545;
     --ink-2: #7a4870;
     --ink-3: #b08aa0;
@@ -18,96 +17,118 @@
     --leaf: #88b66e;
     --leaf-deep: #4d7a3c;
     --hair: rgba(74,37,69,0.12);
-    --card: rgba(255,251,242,0.92);
   }
   * { box-sizing: border-box; }
   html, body {
     margin: 0; padding: 0;
-    background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
+    background: linear-gradient(160deg, var(--bg-1) 0%, var(--bg-2) 100%);
     color: var(--ink); min-height: 100vh;
-    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, sans-serif;
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, sans-serif;
   }
-  /* Floating petals */
-  body::before, body::after {
-    content: "✿"; position: fixed; opacity: 0.25; pointer-events: none;
-    color: var(--pink); font-size: 50px;
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 40% at 92% 8%, rgba(167,140,214,0.22), transparent),
+      radial-gradient(ellipse 50% 50% at 4% 88%, rgba(236,90,140,0.15), transparent);
   }
-  body::before { top: 10%; left: 5%; }
-  body::after { bottom: 14%; right: 6%; color: var(--lavender); }
-  main { max-width: 800px; margin: 0 auto; padding: 32px 20px 80px; position: relative; }
-  .back { display: inline-block; color: var(--ink-2); text-decoration: none; font-size: 13px; margin-bottom: 20px; }
+  main { max-width: 720px; margin: 0 auto; padding: 28px 20px 80px; position: relative; }
+  .back { display: inline-block; color: var(--ink-3); text-decoration: none; font-size: 13px; margin-bottom: 24px; }
   .back:hover { color: var(--ink); }
-  header { text-align: center; margin-bottom: 24px; }
+
+  /* ── Header ── */
+  header { text-align: center; margin-bottom: 36px; }
   .kicker { font: 11px/1 ui-monospace, monospace; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 12px; }
   h1 { font: 600 40px/1.05 Georgia, serif; margin: 0; letter-spacing: -1px; }
   h1 em { color: var(--pink); font-style: italic; font-weight: 400; }
-  .lede { color: var(--ink-2); max-width: 640px; margin: 14px auto 0; font-size: 16.5px; }
-  section.card { background: var(--card); border: 1px solid var(--hair); border-radius: 18px; padding: 24px; margin-top: 20px; }
-  .stage-track { display: flex; justify-content: space-between; gap: 8px; margin: 16px 0 24px; }
-  .step {
-    flex: 1; text-align: center;
-    padding: 8px 4px;
-    background: rgba(167,140,214,0.1);
-    border-radius: 10px;
-    cursor: pointer;
-    border: 2px solid transparent;
-    font: 12px ui-monospace, monospace;
-    color: var(--ink-2);
-    transition: all 0.15s;
+  .lede { color: var(--ink-2); max-width: 520px; margin: 14px auto 0; font-size: 16px; }
+
+  /* ── Book section ── */
+  .page-count {
+    text-align: center; margin-bottom: 14px;
+    font: 12px ui-monospace, monospace; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--ink-3);
   }
-  .step:hover { background: rgba(167,140,214,0.25); }
-  .step.active { background: var(--pink); color: white; border-color: var(--pink); transform: translateY(-2px); }
-  .step .num { font: 600 22px/1 Georgia, serif; display: block; }
   .stage-canvas {
-    height: 320px; border-radius: 16px;
+    height: 380px; border-radius: 24px;
     background: linear-gradient(180deg, #cef2cd 0%, #a8d493 100%);
     display: flex; align-items: center; justify-content: center;
-    overflow: hidden; position: relative;
+    overflow: hidden;
   }
-  .stage-canvas svg { width: 100%; height: 100%; max-width: 500px; }
+  .stage-canvas svg { width: 100%; height: 100%; max-width: 520px; }
   h2.stage-name {
-    font: 600 30px/1.1 Georgia, serif;
-    margin: 22px 0 8px; text-align: center; color: var(--pink);
+    font: 600 36px/1.1 Georgia, serif;
+    margin: 26px 0 10px; text-align: center; color: var(--pink);
   }
-  .stage-text { color: var(--ink-2); font-size: 16px; text-align: center; max-width: 520px; margin: 0 auto; }
-  .nav { display: flex; justify-content: space-between; margin-top: 24px; }
+  .stage-text {
+    color: var(--ink-2); font-size: 18px; line-height: 1.65;
+    text-align: center; max-width: 520px; margin: 0 auto;
+  }
+  .nav-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 28px; gap: 16px;
+  }
+  .dots { display: flex; gap: 9px; }
+  .dot {
+    width: 11px; height: 11px; border-radius: 50%;
+    background: rgba(74,37,69,0.18); cursor: pointer;
+    transition: all 0.15s;
+  }
+  .dot.active { background: var(--pink); transform: scale(1.2); }
+  .dot:hover:not(.active) { background: var(--lavender); }
   .btn {
     appearance: none; border: none; cursor: pointer;
-    padding: 12px 22px; border-radius: 14px;
-    font: 600 15px Georgia, serif;
+    padding: 14px 28px; border-radius: 14px;
+    font: 600 16px Georgia, serif;
     background: var(--lavender); color: white;
-    box-shadow: 0 3px 0 #7e63a8;
-    transition: transform 0.1s;
+    box-shadow: 0 3px 0 #7e63a8; transition: transform 0.1s, box-shadow 0.1s;
+    flex-shrink: 0;
   }
-  .btn:hover { transform: translateY(-1px); }
-  .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 0 #7e63a8; }
+  .btn:active { transform: translateY(1px); box-shadow: 0 1px 0 #7e63a8; }
+  .btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
   .btn.primary { background: var(--pink); box-shadow: 0 3px 0 #b03a6c; }
-  details { margin-top: 8px; cursor: pointer; color: var(--ink-2); font-size: 14px; }
-  details summary { font-weight: 500; color: var(--ink); }
-  details p { margin: 8px 0 0; }
-  .takeaway { margin-top: 24px; padding: 18px 22px; background: rgba(236,90,140,0.1); border: 1px dashed rgba(236,90,140,0.5); border-radius: 14px; }
-  .takeaway h3 { margin: 0 0 8px; font: 600 16px Georgia, serif; color: var(--pink); }
-  footer { margin-top: 40px; text-align: center; color: var(--ink-3); font-size: 12px; }
-  @keyframes wiggle {
-    0%, 100% { transform: rotate(-3deg); }
-    50% { transform: rotate(3deg); }
+  .btn.primary:hover { box-shadow: 0 4px 0 #b03a6c; }
+
+  /* ── Factoids ── */
+  .factoids { margin-top: 44px; display: flex; flex-direction: column; gap: 12px; }
+  .factoid {
+    display: flex; gap: 16px; align-items: flex-start;
+    background: rgba(255,251,242,0.85); border: 1px solid var(--hair);
+    border-radius: 16px; padding: 16px 20px;
   }
-  @keyframes flap {
-    0%, 100% { transform: scaleY(1); }
-    50% { transform: scaleY(0.7); }
+  .factoid-icon { font-size: 26px; flex-shrink: 0; line-height: 1.3; }
+  .factoid strong { display: block; font-family: Georgia, serif; font-size: 15px; margin-bottom: 5px; }
+  .factoid p { margin: 0; color: var(--ink-2); font-size: 14.5px; }
+
+  /* ── Achievement ── */
+  .achievement {
+    margin-top: 28px; padding: 20px 24px;
+    background: rgba(136,182,110,0.12); border-left: 4px solid var(--leaf);
+    border-radius: 0 14px 14px 0;
   }
+  .achievement h3 { margin: 0 0 12px; font: 600 16px Georgia, serif; color: var(--leaf-deep); }
+  .achievement ul { margin: 0; padding-left: 20px; color: var(--ink-2); font-size: 15px; line-height: 1.8; }
+  .achievement li::marker { color: var(--leaf); }
+
+  footer { margin-top: 44px; text-align: center; color: var(--ink-3); font-size: 12px; }
+
+  @keyframes wiggle { 0%,100%{transform:rotate(-3deg)} 50%{transform:rotate(3deg)} }
+  @keyframes flap { 0%,100%{transform:scaleY(1)} 50%{transform:scaleY(0.7)} }
   .wiggle { animation: wiggle 1s ease-in-out infinite; transform-origin: center; }
   .flap { animation: flap 0.5s ease-in-out infinite; transform-origin: center; }
+
   @media (max-width: 600px) {
-    h1 { font-size: 30px; }
+    h1 { font-size: 28px; }
     h2.stage-name { font-size: 26px; }
-    .step .num { font-size: 18px; }
+    .stage-text { font-size: 16px; }
+    .btn { padding: 12px 20px; font-size: 15px; }
   }
 </style>
 </head>
 <body>
 <main>
   <a href="../" class="back">← zur Familien-Werkstatt</a>
+
   <header>
     <div class="kicker">Biologie · Metamorphose</div>
     <h1>Wie wird aus einer Raupe ein <em>Schmetterling?</em></h1>
@@ -116,32 +137,41 @@
     </p>
   </header>
 
-  <section class="card">
-    <div class="stage-track" id="track"></div>
+  <div class="page-count">Seite <span id="pageNum">1</span> von 4</div>
+  <div class="stage-canvas" id="canvas"></div>
+  <h2 class="stage-name" id="stageName">Stadium</h2>
+  <p class="stage-text" id="stageText">Beschreibung</p>
+  <div class="nav-row">
+    <button class="btn" id="prev">← zurück</button>
+    <div class="dots" id="dots"></div>
+    <button class="btn primary" id="next">weiter →</button>
+  </div>
 
-    <div class="stage-canvas" id="canvas"></div>
-
-    <h2 class="stage-name" id="stageName">Stadium</h2>
-    <p class="stage-text" id="stageText">Beschreibung</p>
-
-    <div class="nav">
-      <button class="btn" id="prev">← zurück</button>
-      <button class="btn primary" id="next">weiter →</button>
+  <div class="factoids">
+    <div class="factoid">
+      <span class="factoid-icon">⏱️</span>
+      <div>
+        <strong>Wie lange dauert das alles?</strong>
+        <p>Etwa 3 bis 6 Wochen — je nach Schmetterlingsart und Wetter. Der Tagpfauenauge (häufig in Deutschland) braucht ungefähr 30 Tage von Ei bis Falter.</p>
+      </div>
     </div>
-  </section>
+    <div class="factoid">
+      <span class="factoid-icon">🔬</span>
+      <div>
+        <strong>Was passiert in der Puppe drinnen?</strong>
+        <p>Drinnen löst sich die Raupe fast komplett auf — bis auf ein paar wichtige Zellen. Aus dieser „Suppe" baut sich der Schmetterling neu zusammen: Flügel, Augen, Beine, alles entsteht. Verrückt, aber wahr.</p>
+      </div>
+    </div>
+  </div>
 
-  <details>
-    <summary>Wie lange dauert das alles?</summary>
-    <p>Etwa 3 bis 6 Wochen — je nach Schmetterlingsart und Wetter. Der Tagpfauenauge (häufig in Deutschland) braucht ungefähr 30 Tage von Ei bis Falter.</p>
-  </details>
-  <details>
-    <summary>Was passiert in der Puppe drinnen?</summary>
-    <p>Drinnen löst sich die Raupe fast komplett auf — bis auf ein paar wichtige Zellen. Aus dieser „Suppe" baut sich der Schmetterling neu zusammen: Flügel, Augen, Beine, alles entsteht. Verrückt, aber wahr.</p>
-  </details>
-
-  <div class="takeaway">
-    <h3>Zum Mitnehmen</h3>
-    <p style="margin:0;">Vier Stadien — Ei, Raupe, Puppe, Falter. Die Raupe frisst und wächst, die Puppe baut alles um, der Falter fliegt und legt neue Eier. So beginnt der Kreis von vorne.</p>
+  <div class="achievement">
+    <h3>Das weißt du jetzt ✓</h3>
+    <ul>
+      <li>Vier Stadien: Ei → Raupe → Puppe → Falter</li>
+      <li>Die Raupe frisst und wächst, bis sie aus ihrer Haut rauswächst</li>
+      <li>In der Puppe löst sich fast alles auf und baut sich neu zusammen</li>
+      <li>Der Falter legt neue Eier — und der Kreis beginnt von vorne</li>
+    </ul>
   </div>
 
   <footer>Familien-Werkstatt · gemacht mit den Kids</footer>
@@ -155,12 +185,10 @@ const STAGES = [
     svg: `
       <svg viewBox="0 0 500 320">
         <ellipse cx="250" cy="280" rx="180" ry="20" fill="rgba(0,0,0,0.05)"/>
-        <!-- Leaf -->
         <ellipse cx="250" cy="200" rx="180" ry="80" fill="#88b66e"/>
         <path d="M 90 200 Q 250 240 410 200" fill="none" stroke="#4d7a3c" stroke-width="2"/>
         <line x1="250" y1="200" x2="120" y2="160" stroke="#4d7a3c" stroke-width="1.5"/>
         <line x1="250" y1="200" x2="380" y2="160" stroke="#4d7a3c" stroke-width="1.5"/>
-        <!-- Eggs -->
         ${[210, 240, 270, 295].map((x, i) => `
           <ellipse cx="${x}" cy="${190 + (i % 2) * 8}" rx="6" ry="8" fill="#fff7d6" stroke="#d4ac4a" stroke-width="1.5"/>
         `).join('')}
@@ -174,13 +202,10 @@ const STAGES = [
     svg: `
       <svg viewBox="0 0 500 320">
         <ellipse cx="250" cy="280" rx="200" ry="14" fill="rgba(0,0,0,0.05)"/>
-        <!-- Leaves -->
         <ellipse cx="120" cy="240" rx="60" ry="30" fill="#88b66e"/>
         <ellipse cx="400" cy="240" rx="50" ry="22" fill="#88b66e"/>
-        <!-- Bite mark on leaf -->
         <circle cx="155" cy="220" r="14" fill="#fef0f8"/>
         <circle cx="170" cy="245" r="10" fill="#fef0f8"/>
-        <!-- Caterpillar (segmented body) -->
         <g class="wiggle" transform="translate(250 230)">
           ${Array.from({ length: 8 }).map((_, i) => {
             const x = (i - 3.5) * 28;
@@ -191,7 +216,6 @@ const STAGES = [
           <circle cx="113" cy="-8" r="3" fill="#1a1a1a"/>
           <circle cx="100" cy="-8" r="3" fill="#1a1a1a"/>
           <path d="M 100 4 Q 108 9 116 4" stroke="#1a1a1a" stroke-width="1.5" fill="none"/>
-          <!-- Yellow spots -->
           ${[-84, -28, 28, 84].map(x => `<circle cx="${x}" cy="0" r="3" fill="#f5c452"/>`).join('')}
         </g>
         <text x="250" y="60" text-anchor="middle" font-family="Georgia, serif" font-size="18" fill="#4a2545" font-style="italic">eine hungrige Raupe · krabbelt + frisst</text>
@@ -203,20 +227,15 @@ const STAGES = [
     text: 'Wenn die Raupe groß genug ist, sucht sie sich einen Zweig und spinnt sich selbst eine harte Hülle — die Puppe. Sie hängt sich ruhig auf und ist von außen wie tot. Drinnen aber wird sie komplett umgebaut.',
     svg: `
       <svg viewBox="0 0 500 320">
-        <!-- Branch -->
         <line x1="60" y1="80" x2="440" y2="120" stroke="#6b4a2c" stroke-width="6" stroke-linecap="round"/>
         <line x1="200" y1="100" x2="240" y2="60" stroke="#6b4a2c" stroke-width="3" stroke-linecap="round"/>
-        <!-- Pupa hanging -->
         <g transform="translate(250 130)">
           <line x1="0" y1="-30" x2="0" y2="0" stroke="#6b4a2c" stroke-width="2"/>
           <ellipse cx="0" cy="50" rx="22" ry="48" fill="#a78cd6" stroke="#7e63a8" stroke-width="2"/>
-          <!-- Highlights -->
           <ellipse cx="-8" cy="30" rx="4" ry="14" fill="rgba(255,255,255,0.4)"/>
-          <!-- Gold marks -->
           <circle cx="0" cy="20" r="2.5" fill="#f5c452"/>
           <circle cx="-6" cy="40" r="2" fill="#f5c452"/>
           <circle cx="6" cy="60" r="2" fill="#f5c452"/>
-          <!-- Subtle wing outlines visible -->
           <path d="M -10 50 Q -16 60 -12 80" stroke="rgba(255,255,255,0.3)" fill="none" stroke-width="1"/>
         </g>
         <text x="250" y="280" text-anchor="middle" font-family="Georgia, serif" font-size="18" fill="#4a2545" font-style="italic">die Verwandlung läuft drinnen</text>
@@ -225,11 +244,10 @@ const STAGES = [
   },
   {
     name: '4. Der Falter',
-    text: 'Nach ein paar Wochen reißt die Puppe auf und der fertige Schmetterling kommt heraus — anfangs mit nassen, gefalteten Flügeln. Er pumpt Flüssigkeit hinein, bis sie steif sind. Dann fliegt er los, sucht Blumen-Nektar und legt selbst neue Eier. Der Kreis beginnt von vorne.',
+    text: 'Nach ein paar Wochen reißt die Puppe auf und der fertige Schmetterling kommt heraus — anfangs mit nassen, gefalteten Flügeln. Er pumpt Flüssigkeit hinein, bis sie steif sind. Dann fliegt er los, sucht Nektar und legt selbst neue Eier.',
     svg: `
       <svg viewBox="0 0 500 320">
         <ellipse cx="250" cy="290" rx="200" ry="14" fill="rgba(0,0,0,0.05)"/>
-        <!-- Flower -->
         <g transform="translate(120 240)">
           <line x1="0" y1="0" x2="0" y2="40" stroke="#4d7a3c" stroke-width="3"/>
           <ellipse cx="-12" cy="10" rx="14" ry="8" fill="#88b66e" transform="rotate(-30 -12 10)"/>
@@ -239,30 +257,21 @@ const STAGES = [
           }).join('')}
           <circle cx="0" cy="-15" r="8" fill="#f5c452"/>
         </g>
-        <!-- Butterfly -->
         <g class="flap" transform="translate(280 150)">
-          <!-- Body -->
           <ellipse cx="0" cy="0" rx="4" ry="28" fill="#3a1a35"/>
           <circle cx="0" cy="-30" r="6" fill="#3a1a35"/>
-          <!-- Antennae -->
           <path d="M -3 -34 Q -10 -45 -8 -52" stroke="#3a1a35" stroke-width="1.5" fill="none"/>
           <path d="M 3 -34 Q 10 -45 8 -52" stroke="#3a1a35" stroke-width="1.5" fill="none"/>
           <circle cx="-8" cy="-52" r="2" fill="#3a1a35"/>
           <circle cx="8" cy="-52" r="2" fill="#3a1a35"/>
-          <!-- Wings: upper + lower per side, with patterns -->
-          <g>
-            <!-- Left wings -->
-            <path d="M 0 -10 Q -65 -50 -70 -10 Q -60 0 -10 0 Z" fill="#ec5a8c" stroke="#3a1a35" stroke-width="1.5"/>
-            <path d="M 0 5 Q -55 25 -55 35 Q -30 35 -8 15 Z" fill="#a78cd6" stroke="#3a1a35" stroke-width="1.5"/>
-            <!-- Spots -->
-            <circle cx="-40" cy="-20" r="6" fill="#f5c452"/>
-            <circle cx="-30" cy="20" r="4" fill="#f5c452"/>
-            <!-- Right wings (mirror) -->
-            <path d="M 0 -10 Q 65 -50 70 -10 Q 60 0 10 0 Z" fill="#ec5a8c" stroke="#3a1a35" stroke-width="1.5"/>
-            <path d="M 0 5 Q 55 25 55 35 Q 30 35 8 15 Z" fill="#a78cd6" stroke="#3a1a35" stroke-width="1.5"/>
-            <circle cx="40" cy="-20" r="6" fill="#f5c452"/>
-            <circle cx="30" cy="20" r="4" fill="#f5c452"/>
-          </g>
+          <path d="M 0 -10 Q -65 -50 -70 -10 Q -60 0 -10 0 Z" fill="#ec5a8c" stroke="#3a1a35" stroke-width="1.5"/>
+          <path d="M 0 5 Q -55 25 -55 35 Q -30 35 -8 15 Z" fill="#a78cd6" stroke="#3a1a35" stroke-width="1.5"/>
+          <circle cx="-40" cy="-20" r="6" fill="#f5c452"/>
+          <circle cx="-30" cy="20" r="4" fill="#f5c452"/>
+          <path d="M 0 -10 Q 65 -50 70 -10 Q 60 0 10 0 Z" fill="#ec5a8c" stroke="#3a1a35" stroke-width="1.5"/>
+          <path d="M 0 5 Q 55 25 55 35 Q 30 35 8 15 Z" fill="#a78cd6" stroke="#3a1a35" stroke-width="1.5"/>
+          <circle cx="40" cy="-20" r="6" fill="#f5c452"/>
+          <circle cx="30" cy="20" r="4" fill="#f5c452"/>
         </g>
         <text x="250" y="290" text-anchor="middle" font-family="Georgia, serif" font-size="18" fill="#4a2545" font-style="italic">und ab in die Sonne ☀</text>
       </svg>
@@ -270,26 +279,23 @@ const STAGES = [
   },
 ];
 
-const trackEl = document.getElementById('track');
 const canvasEl = document.getElementById('canvas');
 const stageNameEl = document.getElementById('stageName');
 const stageTextEl = document.getElementById('stageText');
 const prevBtn = document.getElementById('prev');
 const nextBtn = document.getElementById('next');
-
+const dotsEl = document.getElementById('dots');
+const pageNumEl = document.getElementById('pageNum');
 let cur = 0;
 
 function render() {
-  // track
-  trackEl.innerHTML = '';
-  STAGES.forEach((s, i) => {
-    const el = document.createElement('div');
-    el.className = 'step' + (i === cur ? ' active' : '');
-    const num = s.name.split('.')[0];
-    const labelOnly = s.name.split('.').slice(1).join('.').trim();
-    el.innerHTML = `<span class="num">${num}</span>${labelOnly}`;
-    el.addEventListener('click', () => { cur = i; render(); });
-    trackEl.appendChild(el);
+  pageNumEl.textContent = cur + 1;
+  dotsEl.innerHTML = '';
+  STAGES.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === cur ? ' active' : '');
+    d.addEventListener('click', () => { cur = i; render(); });
+    dotsEl.appendChild(d);
   });
   canvasEl.innerHTML = STAGES[cur].svg;
   stageNameEl.textContent = STAGES[cur].name;
@@ -301,7 +307,6 @@ function render() {
 
 prevBtn.addEventListener('click', () => { if (cur > 0) { cur--; render(); } });
 nextBtn.addEventListener('click', () => { if (cur < STAGES.length - 1) { cur++; render(); } });
-
 render();
 </script>
 </body>
